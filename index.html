@@ -4,106 +4,135 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Green Day Scorecard</title>
-  <meta name="description" content="Balanced scorecard and dashboard for team Green Day (U5T1) in the Cesim Global Challenge.">
-  <link rel="stylesheet" href="assets/style.css">
+  <meta name="description" content="Dashboard and balanced scorecard for team Green Day (U5T1) in the Cesim Global Challenge.">
+  <meta name="theme-color" content="#07090d">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=2">
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">
-      <div class="brand-mark" aria-hidden="true">GD</div>
-      <div>
-        <h1>Green Day Scorecard</h1>
-        <p class="sub">Bull Automotive · Cesim Global Challenge · <span id="team-label">Green Day</span></p>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">GD</div>
+        <div class="brand-text">
+          <div class="brand-name">Green Day</div>
+          <div class="brand-sub">Bull Automotive · U5T1</div>
+        </div>
       </div>
-    </div>
-    <div class="actions">
-      <button class="btn primary" id="btn-import">Import Cesim export</button>
-      <button class="btn" id="btn-edit">Edit numbers</button>
-      <details class="menu">
-        <summary class="btn">Data ▾</summary>
-        <div class="menu-list">
-          <button id="btn-download">Download data.json</button>
-          <label class="menu-file">Load data.json<input type="file" id="file-json" accept=".json,application/json" hidden></label>
-          <button id="btn-demo">Load practice-round demo</button>
-          <button id="btn-reset" class="danger">Clear all data</button>
+      <nav class="nav" aria-label="Views">
+        <a href="#dashboard" data-view="dashboard"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg><span>Dashboard</span></a>
+        <a href="#scorecard" data-view="scorecard"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 4a6 6 0 1 1-6 6 6 6 0 0 1 6-6zm0 3a3 3 0 1 0 3 3 3 3 0 0 0-3-3z"/></svg><span>Balanced scorecard</span></a>
+        <a href="#data" data-view="data"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v4H3V4zm0 6h18v4H3v-4zm0 6h18v4H3v-4z"/></svg><span>Data</span></a>
+      </nav>
+      <div class="side-foot">
+        <div class="side-label">Goal</div>
+        <div class="side-goal">Highest cumulative TSR after Round 9</div>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <div class="title-block">
+          <div class="eyebrow" id="view-eyebrow">Cesim Global Challenge</div>
+          <h1 id="view-title">Dashboard</h1>
         </div>
-      </details>
-    </div>
-  </header>
-
-  <main>
-    <section class="round-bar">
-      <div id="round-chips" class="chips" role="tablist" aria-label="Round"></div>
-      <label class="toggle"><input type="checkbox" id="show-practice"> Show practice rounds in charts</label>
-    </section>
-
-    <section id="empty" class="card empty-state" hidden>
-      <h2>No rounds yet</h2>
-      <p>After each round, open <b>Results</b> in Cesim (Universe 5, the round just played), press <b>XLS</b> once and import the file here. One export holds every results page.</p>
-      <div class="row"><button class="btn primary" id="btn-import-2">Import Cesim export</button><button class="btn" id="btn-demo-2">Load practice-round demo</button></div>
-    </section>
-
-    <div id="content">
-      <section class="tiles" id="tiles"></section>
-
-      <section class="card" id="rules-card">
-        <div class="card-head">
-          <h2>Rules check</h2>
-          <p class="muted">The one-pager rules, tested on the selected round's results.</p>
+        <div class="actions">
+          <button class="btn primary" id="btn-import"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20h14v-2H5v2zM12 3l-5 5h3v6h4V8h3l-5-5z"/></svg>Import export</button>
+          <button class="btn" id="btn-edit">Edit numbers</button>
+          <details class="menu">
+            <summary class="btn icon-btn" aria-label="Data menu">⋯</summary>
+            <div class="menu-list">
+              <button id="btn-download">Download data.json</button>
+              <label class="menu-file">Load data.json<input type="file" id="file-json" accept=".json,application/json" hidden></label>
+              <button id="btn-demo">Load practice-round demo</button>
+              <button id="btn-reset" class="danger">Clear data in this browser</button>
+            </div>
+          </details>
         </div>
-        <ul class="rules" id="rules"></ul>
+      </header>
+
+      <div class="round-bar">
+        <div id="round-chips" class="chips" role="tablist" aria-label="Round"></div>
+        <label class="switch"><input type="checkbox" id="show-practice"><span class="track"></span>Practice rounds in charts</label>
+      </div>
+
+      <section id="empty" class="panel empty-state" hidden>
+        <h2>No rounds yet</h2>
+        <p>After each round open <b>Results</b> in Cesim (Universe 5, the round just played), press <b>XLS</b> once and import the file here. One export holds every results page.</p>
+        <div class="row"><button class="btn primary" id="btn-import-2">Import export</button><button class="btn" id="btn-demo-2">Load practice-round demo</button></div>
       </section>
 
-      <h2 class="section-title">Balanced scorecard</h2>
-      <section class="bsc" id="bsc"></section>
+      <!-- DASHBOARD -->
+      <section class="view" id="view-dashboard">
+        <div class="hero" id="hero"></div>
+        <div class="kpi-strip" id="kpi-strip"></div>
 
-      <h2 class="section-title">Trends</h2>
-      <section class="charts">
-        <article class="card chart-card wide">
-          <div class="card-head"><h3>Cumulative TSR p.a. vs the universe</h3><p class="muted">The winning measure. Green Day in blue, rivals in grey.</p></div>
-          <div class="chart" id="chart-tsr"></div>
-        </article>
-        <article class="card chart-card">
-          <div class="card-head"><h3>Profitability</h3><p class="muted">EBITDA margin and ROCE, %. Winners ran 22-27% EBITDA.</p></div>
-          <div class="chart" id="chart-profit"></div>
-        </article>
-        <article class="card chart-card">
-          <div class="card-head"><h3>Balance sheet</h3><p class="muted">USD bn. Short-term debt must stay at 0.</p></div>
-          <div class="chart" id="chart-balance"></div>
-        </article>
-        <article class="card chart-card">
-          <div class="card-head"><h3>Market share by area</h3><p class="muted">Total share of units sold, %.</p></div>
-          <div class="chart" id="chart-share"></div>
-        </article>
-        <article class="card chart-card">
-          <div class="card-head"><h3>Hybrid: sold vs demand</h3><p class="muted" id="fill-sub">Selected round. Europe first, always.</p></div>
-          <div id="chart-fill" class="fill-list"></div>
-        </article>
+        <div class="panel">
+          <div class="panel-head">
+            <div><h2>Rules check</h2><p class="muted">The one-pager rules, tested on this round's results.</p></div>
+            <div class="pill-score" id="rules-score"></div>
+          </div>
+          <ul class="rules" id="rules"></ul>
+        </div>
+
+        <div class="grid charts">
+          <article class="panel span-2">
+            <div class="panel-head"><div><h2>Cumulative TSR vs the universe</h2><p class="muted">The winning measure, % p.a. Green Day highlighted.</p></div></div>
+            <div class="chart" id="chart-tsr"></div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><div><h2>Hybrid: sold vs demand</h2><p class="muted" id="fill-sub">Europe first, always.</p></div></div>
+            <div id="chart-fill" class="fill-list"></div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><div><h2>Profitability</h2><p class="muted">EBITDA margin and ROCE, %. Winners ran 22–27% EBITDA.</p></div></div>
+            <div class="chart" id="chart-profit"></div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><div><h2>Balance sheet</h2><p class="muted">USD bn. Short-term debt must stay at 0.</p></div></div>
+            <div class="chart" id="chart-balance"></div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><div><h2>Market share by area</h2><p class="muted">Share of units sold, %.</p></div></div>
+            <div class="chart" id="chart-share"></div>
+          </article>
+        </div>
       </section>
 
-      <h2 class="section-title">All numbers</h2>
-      <section class="card table-card">
-        <div class="table-wrap"><table id="data-table"></table></div>
+      <!-- BALANCED SCORECARD -->
+      <section class="view" id="view-scorecard" hidden>
+        <div class="bsc-summary" id="bsc-summary"></div>
+        <div class="bsc" id="bsc"></div>
+      </section>
+
+      <!-- DATA -->
+      <section class="view" id="view-data" hidden>
+        <div class="panel table-panel">
+          <div class="panel-head"><div><h2>All numbers</h2><p class="muted">Every stored value per round. Money in k USD, as Cesim prints it.</p></div>
+            <button class="btn" id="btn-edit-2">Edit numbers</button></div>
+          <div class="table-wrap"><table id="data-table"></table></div>
+        </div>
+        <p class="foot">Imported data stays in this browser until you download <code>data.json</code> and commit it to the repository as <code>data/rounds.json</code>. Targets come from “Green Day: Rules to Win”.</p>
       </section>
     </div>
-  </main>
-
-  <footer class="foot">Data stays in this browser until you download <code>data.json</code> and commit it to the repository. Targets come from “Green Day: Rules to Win”.</footer>
+  </div>
 
   <dialog id="dlg-import" class="dialog">
     <form method="dialog" class="dialog-body" id="form-import">
       <h2>Import Cesim results</h2>
-      <p class="muted">Press <b>XLS</b> on any Cesim Results page (it exports all pages in one file, e.g. <code>results-r01.xls</code>) and drop it here.</p>
+      <p class="muted">Press <b>XLS</b> on any Cesim Results page. It exports all pages in one file, e.g. <code>results-r01.xls</code>.</p>
       <div class="grid2">
         <label>Round<select id="imp-round"></select></label>
         <label>Our team name in Cesim<input id="imp-team" type="text" value="Green Day"></label>
       </div>
       <label class="file-drop" id="drop">
         <input type="file" id="imp-files" multiple accept=".xls,.xlsx,.csv,.html,.htm">
-        <span>Drop the exported files here or <u>choose files</u></span>
+        <span>Drop the export here or <u>choose a file</u></span>
       </label>
-      <label class="toggle"><input type="checkbox" id="imp-overwrite"> Overwrite numbers already stored for this round</label>
+      <label class="switch"><input type="checkbox" id="imp-overwrite"><span class="track"></span>Overwrite numbers already stored for this round</label>
       <div id="imp-result"></div>
       <div class="dialog-actions">
         <button class="btn" value="cancel">Cancel</button>
@@ -127,10 +156,10 @@
     </form>
   </dialog>
 
-  <script src="assets/kpis.js"></script>
-  <script src="assets/parser.js"></script>
-  <script src="assets/charts.js"></script>
-  <script src="assets/demo.js"></script>
-  <script src="assets/app.js"></script>
+  <script src="assets/kpis.js?v=2"></script>
+  <script src="assets/parser.js?v=2"></script>
+  <script src="assets/charts.js?v=2"></script>
+  <script src="assets/demo.js?v=2"></script>
+  <script src="assets/app.js?v=2"></script>
 </body>
 </html>

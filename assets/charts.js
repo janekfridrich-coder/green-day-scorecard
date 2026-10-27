@@ -1,4 +1,4 @@
-/* Small hand-rolled SVG charts: a line chart with crosshair tooltip and a sold-vs-demand bar list. */
+/* Small hand-rolled SVG charts: a line chart with crosshair tooltip, sparklines and sold-vs-demand bars. */
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 const svgEl = (tag, attrs = {}) => {
@@ -6,6 +6,7 @@ const svgEl = (tag, attrs = {}) => {
   for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
   return e;
 };
+let gradientId = 0;
 
 function niceTicks(min, max, count = 4) {
   if (min === max) { min -= 1; max += 1; }
@@ -24,14 +25,14 @@ function tooltip() {
   return t;
 }
 
-/* series: [{ name, values (null = gap), color (CSS var), emphasis }] */
-function lineChart(host, { labels, series, yFmt = v => v, zeroLine = false, height = 220 }) {
+/* series: [{ name, values (null = gap), color, emphasis }] */
+function lineChart(host, { labels, series, yFmt = v => v, zeroLine = false, height = 230 }) {
   host.innerHTML = "";
   const all = series.flatMap(s => s.values).filter(v => v != null);
   if (!all.length) { host.innerHTML = `<p class="empty">No data yet. Import a round to fill this chart.</p>`; return; }
-  const W = Math.max(host.clientWidth || 520, 280), H = height;
+  const W = Math.max(host.clientWidth || 520, 260), H = height;
   const labelAll = series.length <= 6;
-  const m = { t: 12, r: labelAll || series.some(s => s.emphasis) ? 112 : 16, b: 28, l: 52 };
+  const m = { t: 14, r: labelAll || series.some(s => s.emphasis) ? 108 : 16, b: 28, l: 46 };
   let lo = Math.min(...all), hi = Math.max(...all);
   if (zeroLine) { lo = Math.min(lo, 0); hi = Math.max(hi, 0); }
   const ticks = niceTicks(lo, hi);
@@ -40,9 +41,11 @@ function lineChart(host, { labels, series, yFmt = v => v, zeroLine = false, heig
   const y = v => m.t + (1 - (v - lo) / (hi - lo)) * (H - m.t - m.b);
 
   const svg = svgEl("svg", { viewBox: `0 0 ${W} ${H}`, width: "100%", height: H, role: "img" });
+  const defs = svgEl("defs");
+  svg.appendChild(defs);
   ticks.forEach(t => {
     svg.appendChild(svgEl("line", { x1: m.l, x2: W - m.r, y1: y(t), y2: y(t), class: t === 0 && zeroLine ? "axis" : "grid" }));
-    const tx = svgEl("text", { x: m.l - 8, y: y(t) + 4, "text-anchor": "end", class: "tick" });
+    const tx = svgEl("text", { x: m.l - 10, y: y(t) + 4, "text-anchor": "end", class: "tick" });
     tx.textContent = yFmt(t); svg.appendChild(tx);
   });
   labels.forEach((l, i) => {
@@ -52,22 +55,30 @@ function lineChart(host, { labels, series, yFmt = v => v, zeroLine = false, heig
 
   const ends = [];
   [...series].sort((a, b) => (a.emphasis ? 1 : 0) - (b.emphasis ? 1 : 0)).forEach(s => {
+    const pts = s.values.map((v, i) => (v == null ? null : [x(i), y(v)]));
     let d = "", pen = false;
+    pts.forEach(p => { if (!p) { pen = false; return; } d += `${pen ? "L" : "M"}${p[0]},${p[1]}`; pen = true; });
+    const valid = pts.filter(Boolean);
+    if (s.emphasis && valid.length > 1) {
+      const id = `g${++gradientId}`;
+      const g = svgEl("linearGradient", { id, x1: 0, y1: 0, x2: 0, y2: 1 });
+      g.appendChild(svgEl("stop", { offset: "0%", "stop-color": s.color, "stop-opacity": 0.28 }));
+      g.appendChild(svgEl("stop", { offset: "100%", "stop-color": s.color, "stop-opacity": 0 }));
+      defs.appendChild(g);
+      const base = y(zeroLine ? 0 : lo);
+      const area = `M${valid[0][0]},${base}` + valid.map(p => `L${p[0]},${p[1]}`).join("") + `L${valid[valid.length - 1][0]},${base}Z`;
+      svg.appendChild(svgEl("path", { d: area, fill: `url(#${id})` }));
+    }
+    svg.appendChild(svgEl("path", { d, fill: "none", stroke: s.color, "stroke-width": s.emphasis ? 3 : 2, "stroke-linejoin": "round", "stroke-linecap": "round" }));
     s.values.forEach((v, i) => {
-      if (v == null) { pen = false; return; }
-      d += `${pen ? "L" : "M"}${x(i)},${y(v)}`; pen = true;
-    });
-    svg.appendChild(svgEl("path", { d, fill: "none", stroke: s.color, "stroke-width": s.emphasis ? 3 : 2, "stroke-linejoin": "round", "stroke-linecap": "round", opacity: s.muted ? 0.75 : 1 }));
-    s.values.forEach((v, i) => {
-      if (v != null) svg.appendChild(svgEl("circle", { cx: x(i), cy: y(v), r: s.emphasis ? 4.5 : 3.5, fill: s.color, stroke: "var(--surface-1)", "stroke-width": 2 }));
+      if (v != null) svg.appendChild(svgEl("circle", { cx: x(i), cy: y(v), r: s.emphasis ? 5 : 4, fill: s.color, stroke: "var(--panel)", "stroke-width": 2 }));
     });
     const li = s.values.map((v, i) => (v == null ? -1 : i)).filter(i => i >= 0).pop();
     if (li != null && li >= 0 && (s.emphasis || labelAll)) ends.push({ name: s.name, y: y(s.values[li]), x: x(li), strong: s.emphasis });
   });
-  /* De-collide direct labels. */
-  ends.sort((a, b) => a.y - b.y).forEach((e, i, arr) => { if (i && e.y - arr[i - 1].y < 13) e.y = arr[i - 1].y + 13; });
+  ends.sort((a, b) => a.y - b.y).forEach((e, i, arr) => { if (i && e.y - arr[i - 1].y < 14) e.y = arr[i - 1].y + 14; });
   ends.forEach(e => {
-    const tx = svgEl("text", { x: e.x + 10, y: e.y + 4, class: e.strong ? "end-label strong" : "end-label" });
+    const tx = svgEl("text", { x: e.x + 11, y: e.y + 4, class: e.strong ? "end-label strong" : "end-label" });
     tx.textContent = e.name; svg.appendChild(tx);
   });
 
@@ -95,27 +106,40 @@ function lineChart(host, { labels, series, yFmt = v => v, zeroLine = false, heig
   host.appendChild(svg);
 }
 
-/* rows: [{ label, sold, demand }] — demand as the track, sold as the fill. */
+/* Inline sparkline as an SVG string. */
+function sparkline(values, color = "var(--series-1)", w = 96, h = 30) {
+  const pts = values.map((v, i) => [i, v]).filter(p => p[1] != null);
+  if (pts.length < 2) return `<svg class="spark" width="${w}" height="${h}" aria-hidden="true"></svg>`;
+  const vs = pts.map(p => p[1]);
+  let lo = Math.min(...vs), hi = Math.max(...vs);
+  if (lo === hi) { lo -= 1; hi += 1; }
+  const X = i => 3 + (i * (w - 6)) / Math.max(values.length - 1, 1);
+  const Y = v => 3 + (1 - (v - lo) / (hi - lo)) * (h - 6);
+  const line = pts.map((p, k) => `${k ? "L" : "M"}${X(p[0]).toFixed(1)},${Y(p[1]).toFixed(1)}`).join("");
+  const area = `${line}L${X(pts[pts.length - 1][0]).toFixed(1)},${h}L${X(pts[0][0]).toFixed(1)},${h}Z`;
+  const last = pts[pts.length - 1];
+  return `<svg class="spark" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true">` +
+    `<path class="sa" d="${area}" fill="${color}" opacity="0.12"/><path class="sl" d="${line}" stroke="${color}"/>` +
+    `<circle cx="${X(last[0]).toFixed(1)}" cy="${Y(last[1]).toFixed(1)}" r="3" fill="${color}"/></svg>`;
+}
+
+/* rows: [{ label, sold, demand }] */
 function fillBars(host, rows) {
   host.innerHTML = "";
   const valid = rows.filter(r => r.demand != null && r.sold != null);
   if (!valid.length) { host.innerHTML = `<p class="empty">No market report imported for this round yet.</p>`; return; }
-  const max = Math.max(...valid.map(r => Math.max(r.demand, r.sold)), 1);
   valid.forEach(r => {
     const pct = r.demand ? (r.sold / r.demand) * 100 : 100;
     const st = pct >= 95 ? "good" : pct >= 80 ? "warn" : "bad";
+    const lost = r.demand - r.sold;
     const row = document.createElement("div");
     row.className = "fill-row";
     row.innerHTML = `
-      <div class="fill-label">${r.label}</div>
-      <div class="fill-track" style="width:${(r.demand / max) * 100}%" title="Demand ${Math.round(r.demand)}k">
-        <div class="fill-bar" style="width:${r.demand ? Math.min(100, (r.sold / r.demand) * 100) : 0}%"></div>
-      </div>
-      <div class="fill-value"><b>${Math.round(r.sold)}k</b> of ${Math.round(r.demand)}k <span class="status ${st}">${statusIcon(st)} ${pct.toFixed(0)}%</span></div>`;
+      <div class="fill-top"><span class="fill-label">${r.label}</span><span class="fill-value"><b>${Math.round(r.sold)}k</b> sold of ${Math.round(r.demand)}k</span></div>
+      <div class="fill-track"><div class="fill-bar ${st}" style="width:${r.demand ? Math.min(100, pct) : 0}%"></div></div>
+      <div class="fill-foot"><span class="status ${st}"><span class="ic"></span>${pct.toFixed(0)}% served</span><span class="muted">${lost > 0.5 ? Math.round(lost) + "k cars lost" : "No cars lost"}</span></div>`;
     host.appendChild(row);
   });
 }
 
-function statusIcon(s) {
-  return { good: "●", warn: "▲", bad: "■", none: "○" }[s] || "○";
-}
+function statusIcon() { return ""; }

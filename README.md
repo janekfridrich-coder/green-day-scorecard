@@ -4,7 +4,14 @@ Dashboard and balanced scorecard for team **Green Day (U5T1)** in the Cesim Glob
 After each round you import the Cesim Results export, and the page updates every KPI, target check and trend chart.
 The targets come from our team doc *Green Day: Rules to Win*.
 
-It is a static site: plain HTML, CSS and JavaScript with no build step. It runs on GitHub Pages.
+It is a static site: plain HTML, CSS and JavaScript with no build step. It runs on GitHub Pages or Vercel; every push to `main` redeploys.
+
+Three screens:
+- **Dashboard** (`#dashboard`): TSR, share price, EPS and profit with trend lines, six key KPIs, the rules check, and charts for TSR vs every team, hybrid sold vs demand, profitability, balance sheet and market share.
+- **Balanced scorecard** (`#scorecard`): the four perspectives with actual, target, trend and status for every KPI, and a score of how many KPIs are on target.
+- **Data** (`#data`): every stored number per round.
+
+The shared `data/rounds.json` always wins for the rounds it contains, so after a push everyone sees the same numbers; rounds imported only in one browser are kept beside them.
 
 ## Put it on GitHub Pages
 

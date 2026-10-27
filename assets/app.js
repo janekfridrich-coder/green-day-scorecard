@@ -1,4 +1,4 @@
-/* Green Day Scorecard: state, rendering and dialogs. */
+/* Green Day Scorecard: state, views (dashboard / scorecard / data) and dialogs. */
 
 const STORE_KEY = "green-day-scorecard-v1";
 const ROUND_IDS = [
@@ -7,24 +7,35 @@ const ROUND_IDS = [
   ...Array.from({ length: 9 }, (_, i) => ({ id: `R${i + 1}`, label: `Round ${i + 1}`, practice: false })),
 ];
 const STATUS_TEXT = { good: "On target", warn: "Watch", bad: "Off target", none: "No target" };
+const VIEWS = {
+  dashboard: { title: "Dashboard", eyebrow: "Cesim Global Challenge · Universe 5" },
+  scorecard: { title: "Balanced scorecard", eyebrow: "Targets from Green Day: Rules to Win" },
+  data: { title: "Data", eyebrow: "Stored numbers per round" },
+};
+const ALL_KPIS = SCORECARD.flatMap(p => p.kpis);
 
 let state = { team: "Green Day", rounds: [] };
 let selected = null;
+let view = "dashboard";
 const $ = s => document.querySelector(s);
 
 /* ---------- storage ---------- */
 function save() {
   try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) { /* private mode: keep in memory */ }
 }
+/* The shared data/rounds.json wins for every round it contains; rounds only stored locally are kept. */
 async function load() {
-  try {
-    const s = localStorage.getItem(STORE_KEY);
-    if (s) { state = JSON.parse(s); return; }
-  } catch (e) { /* ignore */ }
+  let local = null, shared = null;
+  try { const s = localStorage.getItem(STORE_KEY); if (s) local = JSON.parse(s); } catch (e) { /* ignore */ }
   try {
     const res = await fetch("data/rounds.json", { cache: "no-store" });
-    if (res.ok) { const d = await res.json(); if (d && Array.isArray(d.rounds)) state = d; }
+    if (res.ok) { const d = await res.json(); if (d && Array.isArray(d.rounds)) shared = d; }
   } catch (e) { /* opened from disk: no fetch */ }
+  if (shared) {
+    const ids = new Set(shared.rounds.map(r => r.id));
+    state = { team: shared.team || "Green Day", rounds: [...shared.rounds, ...((local && local.rounds) || []).filter(r => !ids.has(r.id))] };
+  } else if (local) state = local;
+  sortRounds();
 }
 function sortRounds() {
   const order = Object.fromEntries(ROUND_IDS.map((r, i) => [r.id, i]));
@@ -45,14 +56,36 @@ const prevOf = r => {
   const i = same.indexOf(r);
   return i > 0 ? same[i - 1] : null;
 };
+function chartRounds() {
+  const showPractice = $("#show-practice").checked || state.rounds.every(r => r.practice);
+  return state.rounds.filter(r => showPractice || !r.practice);
+}
+const series = key => chartRounds().map(r => { const v = derive(r, prevOf(r))[key]; return v == null ? null : v; });
+
+/* ---------- shared bits ---------- */
+function statusTag(s, missing) {
+  return `<span class="status ${missing ? "none" : s}"><span class="ic"></span>${missing ? "No data" : STATUS_TEXT[s]}</span>`;
+}
+function deltaBadge(v, p, kind, lowerIsBetter) {
+  if (v == null || p == null) return `<span class="delta-note">First round</span>`;
+  const diff = v - p;
+  if (Math.abs(diff) < 1e-9) return `<span class="delta">■ No change</span>`;
+  const good = lowerIsBetter ? diff < 0 : diff > 0;
+  const txt = kind === "pct" ? `${Math.abs(diff).toFixed(1)} pts`
+    : kind === "bn" ? `$${(Math.abs(diff) / 1e6).toFixed(1)}bn`
+    : kind === "usd2" ? `$${Math.abs(diff).toFixed(2)}` : Math.abs(diff).toFixed(2);
+  return `<span class="delta ${good ? "up" : "down"}">${diff > 0 ? "▲" : "▼"} ${txt}</span>`;
+}
 
 /* ---------- render ---------- */
 function render() {
-  $("#team-label").textContent = state.team;
   const has = state.rounds.length > 0;
   $("#empty").hidden = has;
-  $("#content").hidden = !has;
   $(".round-bar").hidden = !has;
+  document.querySelectorAll(".view").forEach(v => { v.hidden = !has || v.id !== `view-${view}`; });
+  document.querySelectorAll(".nav a").forEach(a => a.classList.toggle("active", a.dataset.view === view));
+  $("#view-title").textContent = VIEWS[view].title;
+  $("#view-eyebrow").textContent = VIEWS[view].eyebrow;
   if (!has) { $("#round-chips").innerHTML = ""; return; }
   if (!selected || !getRound(selected)) {
     const real = state.rounds.filter(r => !r.practice);
@@ -65,68 +98,47 @@ function render() {
     `<button class="chip${r.practice ? " practice" : ""}" role="tab" aria-selected="${r.id === selected}" data-id="${r.id}">${r.label}</button>`).join("");
   $("#round-chips").querySelectorAll(".chip").forEach(b => b.onclick = () => { selected = b.dataset.id; render(); });
 
-  renderTiles(d);
-  renderRules(d);
-  renderScorecard(d);
-  renderCharts(round, d);
-  renderTable();
+  if (view === "dashboard") { renderHero(d); renderStrip(d); renderRules(d); renderCharts(round, d); }
+  if (view === "scorecard") renderScorecard(d);
+  if (view === "data") renderTable();
 }
 
-function delta(v, p, kind, invert) {
-  if (v == null || p == null) return `<div class="d">No earlier round</div>`;
-  const diff = v - p;
-  const up = invert ? diff < 0 : diff > 0;
-  const cls = diff === 0 ? "" : up ? "up" : "down";
-  const arrow = diff > 0 ? "▲" : diff < 0 ? "▼" : "■";
-  const txt = kind === "pct" ? `${Math.abs(diff).toFixed(1)} pts` : kind === "bn" ? `USD ${(Math.abs(diff) / 1e6).toFixed(1)}bn` : kind === "usd2" ? `USD ${Math.abs(diff).toFixed(2)}` : Math.abs(diff).toFixed(2);
-  return `<div class="d ${cls}">${arrow} ${txt} vs last round</div>`;
-}
-
-function renderTiles(d) {
+function renderHero(d) {
   const p = d._prev || {};
-  const rank = d.rank ? `Rank ${d.rank} of ${d.teamsCount} in universe` : "Rank: import the Ratios page";
-  $("#tiles").innerHTML = [
-    { k: "Cumulative TSR p.a.", v: fmt(d.tsr, "pct"), d: `<div class="d">${rank}</div>` },
-    { k: "Share price", v: fmt(d.sharePrice, "usd2").replace("USD ", "$"), d: delta(d.sharePrice, p.sharePrice, "usd2") },
-    { k: "EPS", v: fmt(d.eps, "usd2").replace("USD ", "$"), d: delta(d.eps, p.eps, "usd2") },
-    { k: "Profit for the round", v: d.profit != null ? `$${(d.profit / 1e6).toFixed(1)}bn` : "–", d: delta(d.profit, p.profit, "bn") },
-  ].map(t => `<div class="card tile"><div class="k">${t.k}</div><div class="v">${t.v}</div>${t.d}</div>`).join("");
+  const rank = d.rank ? `<span class="rank">#${d.rank} of ${d.teamsCount}</span>` : "";
+  const cards = [
+    { k: "Cumulative TSR p.a.", v: fmt(d.tsr, "pct"), extra: rank, delta: deltaBadge(d.tsr, p.tsr, "pct"), spark: sparkline(series("tsr"), "var(--good)", 120, 36), lead: true },
+    { k: "Share price", v: d.sharePrice != null ? `$${d.sharePrice.toFixed(2)}` : "–", delta: deltaBadge(d.sharePrice, p.sharePrice, "usd2"), spark: sparkline(series("sharePrice")) },
+    { k: "EPS", v: d.eps != null ? `$${d.eps.toFixed(2)}` : "–", delta: deltaBadge(d.eps, p.eps, "usd2"), spark: sparkline(series("eps")) },
+    { k: "Profit for the round", v: d.profit != null ? `$${(d.profit / 1e6).toFixed(1)}bn` : "–", delta: deltaBadge(d.profit, p.profit, "bn"), spark: sparkline(series("profit")) },
+  ];
+  $("#hero").innerHTML = cards.map(c => `
+    <div class="panel hero-card${c.lead ? " lead" : ""}">
+      <div class="k"><span>${c.k}</span>${c.extra || ""}</div>
+      <div class="v">${c.v}</div>
+      <div class="meta"><div>${c.delta}</div>${c.spark}</div>
+    </div>`).join("");
 }
 
-function statusTag(s, missing) {
-  return `<span class="status ${s}"><span class="ic">${statusIcon(s)}</span>${missing ? "No data" : STATUS_TEXT[s]}</span>`;
+function renderStrip(d) {
+  const keys = ["ebitdaPct", "roce", "equityRatio", "stDebt", "hyServiceEurope", "hybridFeatures"];
+  $("#kpi-strip").innerHTML = keys.map(key => {
+    const k = ALL_KPIS.find(x => x.key === key);
+    const s = d[key] == null ? "none" : kpiStatus(k, d);
+    return `<div class="panel mini ${s}"><div class="k">${k.label}</div><div class="v">${fmt(d[key], k.fmt)}</div><div class="t">Target ${k.text}</div></div>`;
+  }).join("");
 }
 
 function renderRules(d) {
+  let pass = 0, scored = 0;
   $("#rules").innerHTML = RULE_CHECKS.map(c => {
     const res = c.test(d);
     const s = res == null ? "none" : res ? "good" : "bad";
+    if (res != null) { scored++; if (res) pass++; }
     const word = res == null ? "No data" : res ? "Pass" : "Fail";
-    return `<li><span class="status ${s}"><span class="ic">${statusIcon(s)}</span>${word}</span><span>${c.label}</span></li>`;
+    return `<li class="${s}"><span class="status ${s}"><span class="ic"></span>${word}</span><span>${c.label}</span></li>`;
   }).join("");
-}
-
-function renderScorecard(d) {
-  $("#bsc").innerHTML = SCORECARD.map(p => {
-    const rows = p.kpis.map(k => {
-      const s = kpiStatus(k, d);
-      const prev = d._prev ? d._prev[k.key] : null;
-      const dl = d[k.key] != null && prev != null ? `<span class="delta">${fmt(prev, k.fmt)} last round</span>` : "";
-      return `<tr><td>${k.label}<span class="tgt-mobile">${k.text}</span></td><td class="val">${fmt(d[k.key], k.fmt)}${dl}</td><td class="tgt">${k.text}</td><td>${statusTag(s, d[k.key] == null)}</td></tr>`;
-    }).join("");
-    const scored = p.kpis.map(k => kpiStatus(k, d)).filter(s => s !== "none");
-    const good = scored.filter(s => s === "good").length;
-    return `<article class="card">
-      <div class="persp-head"><div><h3>${p.title}</h3><p class="muted">${p.question}</p></div>
-      <div class="persp-score">${scored.length ? `${good} of ${scored.length} on target` : "No data yet"}</div></div>
-      <table class="kpi-table"><thead><tr><th>KPI</th><th>Value</th><th>Target</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table>
-    </article>`;
-  }).join("");
-}
-
-function chartRounds() {
-  const showPractice = $("#show-practice").checked || state.rounds.every(r => r.practice);
-  return state.rounds.filter(r => showPractice || !r.practice);
+  $("#rules-score").innerHTML = scored ? `<b>${pass}</b> / ${scored} passed` : "No data";
 }
 
 function renderCharts(round, d) {
@@ -137,12 +149,12 @@ function renderCharts(round, d) {
 
   const teamNames = [...new Set(rounds.flatMap(r => Object.keys(r.teams || {})))];
   const tsrSeries = teamNames.map(t => ({
-    name: t, emphasis: t === state.team, muted: t !== state.team,
-    color: t === state.team ? "var(--series-1)" : "var(--rival)",
+    name: t, emphasis: t === state.team,
+    color: t === state.team ? "var(--good)" : "var(--rival)",
     values: rounds.map(r => (r.teams && r.teams[t] && r.teams[t].tsr != null ? r.teams[t].tsr : null)),
   }));
-  if (!tsrSeries.length) tsrSeries.push({ name: state.team, emphasis: true, color: "var(--series-1)", values: ds.map(x => x.tsr ?? null) });
-  lineChart($("#chart-tsr"), { labels, series: tsrSeries, yFmt: pctFmt, zeroLine: true, height: 260 });
+  if (!tsrSeries.length) tsrSeries.push({ name: state.team, emphasis: true, color: "var(--good)", values: ds.map(x => x.tsr ?? null) });
+  lineChart($("#chart-tsr"), { labels, series: tsrSeries, yFmt: pctFmt, zeroLine: true, height: 280 });
 
   lineChart($("#chart-profit"), { labels, yFmt: pctFmt, series: [
     { name: "EBITDA %", color: "var(--series-1)", values: ds.map(x => x.ebitdaPct ?? null) },
@@ -162,6 +174,53 @@ function renderCharts(round, d) {
 
   $("#fill-sub").textContent = `${round.label}. Europe first, always.`;
   fillBars($("#chart-fill"), ["Europe", "USA", "China"].map(a => ({ label: a, sold: d[`sold_${a}_Hybrid`], demand: d[`dem_${a}_Hybrid`] })));
+}
+
+function ring(good, total) {
+  const r = 30, c = 2 * Math.PI * r, f = total ? good / total : 0;
+  return `<svg class="ring" width="76" height="76" viewBox="0 0 76 76" aria-hidden="true">
+    <circle class="bg" cx="38" cy="38" r="${r}" fill="none" stroke-width="8"/>
+    <circle class="fg" cx="38" cy="38" r="${r}" fill="none" stroke-width="8" stroke-dasharray="${(f * c).toFixed(1)} ${c.toFixed(1)}" transform="rotate(-90 38 38)"/>
+    <text x="38" y="45" text-anchor="middle">${Math.round(f * 100)}%</text></svg>`;
+}
+
+function renderScorecard(d) {
+  const persp = SCORECARD.map(p => {
+    const st = p.kpis.map(k => (d[k.key] == null ? "none" : kpiStatus(k, d)));
+    const scored = st.filter(s => s !== "none");
+    return { p, st, good: scored.filter(s => s === "good").length, scored: scored.length };
+  });
+  const good = persp.reduce((a, x) => a + x.good, 0), scored = persp.reduce((a, x) => a + x.scored, 0);
+  const bad = persp.reduce((a, x) => a + x.st.filter(s => s === "bad").length, 0);
+  $("#bsc-summary").innerHTML = `
+    <div class="panel score-card overall">${ring(good, scored)}
+      <div><div class="k">KPIs on target</div><div class="v">${good}<small> / ${scored}</small></div>
+      <div class="muted">${bad ? `<span class="status bad"><span class="ic"></span>${bad} off target</span>` : `<span class="status good"><span class="ic"></span>Nothing off target</span>`}</div></div>
+    </div>` + persp.map(x => `
+    <div class="panel score-card">
+      <div class="k">${x.p.title}</div>
+      <div class="v">${x.good}<small> / ${x.scored || "–"}</small></div>
+      <div class="seg">${x.st.map(s => `<span class="${s}"></span>`).join("")}</div>
+    </div>`).join("");
+
+  $("#bsc").innerHTML = persp.map((x, n) => {
+    const rows = x.p.kpis.map((k, i) => {
+      const prev = d._prev ? d._prev[k.key] : null;
+      const prevTxt = d[k.key] != null && prev != null ? `<span class="prev">${fmt(prev, k.fmt)} last round</span>` : "";
+      const color = x.st[i] === "bad" ? "var(--bad)" : x.st[i] === "good" ? "var(--good)" : x.st[i] === "warn" ? "var(--warn)" : "var(--series-1)";
+      return `<tr>
+        <td><div class="kpi-name">${k.label}</div><span class="tgt-mobile">${k.text}</span></td>
+        <td class="val">${fmt(d[k.key], k.fmt)}${prevTxt}</td>
+        <td class="tgt">${k.text}</td>
+        <td>${sparkline(series(k.key), color, 84, 26)}</td>
+        <td>${statusTag(x.st[i], d[k.key] == null)}</td></tr>`;
+    }).join("");
+    return `<article class="panel persp">
+      <div class="persp-head"><div><h2><span class="persp-num">${n + 1}</span>${x.p.title}</h2><p class="muted">${x.p.question}</p></div>
+        <div class="pill-score">${x.scored ? `<b>${x.good}</b> / ${x.scored} on target` : "No data"}</div></div>
+      <table class="kpi-table"><thead><tr><th>KPI</th><th>Actual</th><th>Target</th><th>Trend</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table>
+    </article>`;
+  }).join("");
 }
 
 function renderTable() {
@@ -197,12 +256,12 @@ function openImport() {
   $("#dlg-import").showModal();
 }
 async function handleFiles(files) {
-  if (typeof XLSX === "undefined") { $("#imp-result").innerHTML = `<p class="imp-note">The Excel reader did not load. Check the internet connection and reload.</p>`; return; }
+  if (typeof XLSX === "undefined") { $("#imp-result").innerHTML = `<p class="imp-note err">The Excel reader did not load. Check the internet connection and reload.</p>`; return; }
   const team = $("#imp-team").value.trim() || "Green Day";
   let facts = [];
   for (const f of files) {
     try { facts = facts.concat(readWorkbook(await f.arrayBuffer(), team)); }
-    catch (e) { $("#imp-result").innerHTML = `<p class="imp-note">Could not read ${f.name}: ${e.message}</p>`; return; }
+    catch (e) { $("#imp-result").innerHTML = `<p class="imp-note err">Could not read ${f.name}: ${e.message}</p>`; return; }
   }
   const res = extract(facts, team);
   pending = { team, res };
@@ -210,9 +269,9 @@ async function handleFiles(files) {
   const missing = ["tsr", "sharePrice", "eps", "profit", "stDebt", "equityRatio", "dem_Europe_Hybrid"].filter(k => res.kpi[k] == null);
   $("#imp-result").innerHTML = res.found.length
     ? `<p class="imp-note">Found <b>${res.found.length}</b> numbers for <b>${team}</b>${Object.keys(res.teams).length ? ` and TSR for ${Object.keys(res.teams).length} teams` : ""}.
-       ${missing.length ? `Still missing: ${missing.map(labelOf).join(", ")}. Import the page it lives on, or add it with Edit numbers.` : ""}</p>
+       ${missing.length ? `Still missing: ${missing.map(labelOf).join(", ")}. Add it with Edit numbers.` : ""}</p>
        <table class="imp-table">${res.found.map(f => `<tr><td>${labelOf(f.key)}</td><td>${fmt(f.value)}</td><td>${f.source}</td></tr>`).join("")}</table>`
-    : `<p class="imp-note">No numbers found for “${team}”. Check that the team name matches the column header in the export exactly.</p>`;
+    : `<p class="imp-note err">No numbers found for “${team}”. Check that the team name matches the column header in the export exactly.</p>`;
   $("#imp-save").disabled = !res.found.length && !Object.keys(res.teams).length;
 }
 
@@ -243,24 +302,33 @@ function loadDemo() {
   state.rounds = state.rounds.filter(x => !x.practice).concat(JSON.parse(JSON.stringify(PRACTICE_DEMO.rounds)));
   sortRounds(); selected = null; save(); render();
 }
+function route() {
+  const v = location.hash.replace("#", "");
+  view = VIEWS[v] ? v : "dashboard";
+  render();
+  window.scrollTo(0, 0);
+}
 
 function init() {
   $("#btn-import").onclick = openImport;
   $("#btn-import-2").onclick = openImport;
   $("#btn-edit").onclick = openEdit;
+  $("#btn-edit-2").onclick = openEdit;
   $("#btn-download").onclick = download;
   $("#btn-demo").onclick = loadDemo;
   $("#btn-demo-2").onclick = loadDemo;
   $("#btn-reset").onclick = () => {
-    if (!confirm("Clear every round stored in this browser? Download data.json first if you need it.")) return;
-    state = { team: state.team, rounds: [] }; selected = null; save(); render();
+    if (!confirm("Clear the rounds stored in this browser? The shared data/rounds.json loads again on reload.")) return;
+    try { localStorage.removeItem(STORE_KEY); } catch (e) { /* ignore */ }
+    location.reload();
   };
   $("#file-json").onchange = async e => {
     const f = e.target.files[0]; if (!f) return;
-    try { const d = JSON.parse(await f.text()); if (!Array.isArray(d.rounds)) throw new Error("no rounds"); state = d; selected = null; save(); render(); }
+    try { const d = JSON.parse(await f.text()); if (!Array.isArray(d.rounds)) throw new Error("no rounds"); state = d; sortRounds(); selected = null; save(); render(); }
     catch (err) { alert("That file is not a dashboard data.json."); }
   };
   $("#show-practice").onchange = render;
+  window.addEventListener("hashchange", route);
 
   $("#imp-files").onchange = e => handleFiles([...e.target.files]);
   const drop = $("#drop");
@@ -290,7 +358,7 @@ function init() {
     selected = id; save(); render();
   });
   let t; window.addEventListener("resize", () => { clearTimeout(t); t = setTimeout(render, 150); });
-  load().then(render);
+  load().then(route);
 }
 
 init();
