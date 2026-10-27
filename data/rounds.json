@@ -1,4 +1,163 @@
 {
   "team": "Green Day",
-  "rounds": []
+  "rounds": [
+    {
+      "id": "P1",
+      "label": "Practice 1",
+      "practice": true,
+      "team": "Green Day",
+      "kpi": {
+        "tsr": 27.73,
+        "sharePrice": 56.8,
+        "eps": 2.6,
+        "ebitdaPct": 18.13,
+        "roce": 27.1,
+        "equityRatio": 49.5,
+        "esg": 2.95,
+        "shares": 1625000,
+        "revenue": 42909417,
+        "profit": 4222463,
+        "cash": 9791903,
+        "ltDebt": 8900000,
+        "stDebt": 4236419,
+        "inventoryValue": 4918845,
+        "invUnits": 468,
+        "capUSA": 70,
+        "rdHybridPct": 28.8,
+        "price_USA_Combustion": 18500,
+        "feat_USA_Combustion": 3,
+        "dem_USA_Combustion": 557,
+        "price_China_Combustion": 122000,
+        "feat_China_Combustion": 5,
+        "dem_China_Combustion": 437,
+        "price_Europe_Combustion": 21500,
+        "feat_Europe_Combustion": 2,
+        "dem_Europe_Combustion": 620,
+        "price_USA_Hybrid": 22500,
+        "feat_USA_Hybrid": 1,
+        "sold_USA_Hybrid": 0,
+        "dem_USA_Hybrid": 415,
+        "price_China_Hybrid": 150000,
+        "feat_China_Hybrid": 1,
+        "sold_China_Hybrid": 367,
+        "dem_China_Hybrid": 367,
+        "price_Europe_Hybrid": 25000,
+        "feat_Europe_Hybrid": 1,
+        "sold_Europe_Hybrid": 42,
+        "dem_Europe_Hybrid": 526
+      },
+      "teams": {
+        "Green Day": {
+          "tsr": 27.73,
+          "sharePrice": 56.8
+        },
+        "RedBull": {
+          "tsr": 24.53
+        },
+        "U5T3 - Blue": {
+          "tsr": -13.2
+        },
+        "U5T4 - Orange": {
+          "tsr": -7.37
+        },
+        "U5T5 - Grey": {
+          "tsr": -35.05
+        }
+      },
+      "rivalPrices": {}
+    },
+    {
+      "id": "P2",
+      "label": "Practice 2",
+      "practice": true,
+      "team": "Green Day",
+      "kpi": {
+        "tsr": 29.5345,
+        "sharePrice": 69.7664,
+        "eps": 4.1776,
+        "ebitdaPct": 16.6527,
+        "roce": 37.528,
+        "equityRatio": 54.5168,
+        "esg": 2.9937,
+        "shares": 1625000,
+        "revenue": 62295388.2454,
+        "profit": 6788561.4652,
+        "cash": 9098735.2472,
+        "ltDebt": 8900000,
+        "stDebt": 0,
+        "inventoryValue": 0,
+        "dividends": 8000000,
+        "rdEfficiency": 1.055,
+        "turnover": 2.98,
+        "shareUSA": 26.8225,
+        "price_USA_Combustion": 19000,
+        "feat_USA_Combustion": 4,
+        "sold_USA_Combustion": 611.189,
+        "dem_USA_Combustion": 611.189,
+        "price_USA_Hybrid": 25500,
+        "feat_USA_Hybrid": 2,
+        "sold_USA_Hybrid": 408,
+        "dem_USA_Hybrid": 537.117,
+        "shareChina": 36.5703,
+        "price_China_Combustion": 123000,
+        "feat_China_Combustion": 6,
+        "sold_China_Combustion": 522.116,
+        "dem_China_Combustion": 522.116,
+        "price_China_Hybrid": 170000,
+        "feat_China_Hybrid": 2,
+        "sold_China_Hybrid": 539.375,
+        "dem_China_Hybrid": 566.713,
+        "shareEurope": 20.1867,
+        "price_Europe_Combustion": 20600,
+        "feat_Europe_Combustion": 3,
+        "sold_Europe_Combustion": 651.962,
+        "dem_Europe_Combustion": 835.711,
+        "price_Europe_Hybrid": 25500,
+        "feat_Europe_Hybrid": 2,
+        "sold_Europe_Hybrid": 0,
+        "dem_Europe_Hybrid": 703.828,
+        "capUSA": 85,
+        "capChina": 90,
+        "invUnits": 0,
+        "rdHybridPct": 61.5
+      },
+      "teams": {
+        "Green Day": {
+          "tsr": 29.5345,
+          "sharePrice": 69.7664
+        },
+        "RedBull": {
+          "tsr": 27.4987,
+          "sharePrice": 69.185
+        },
+        "U5T3 - Blue": {
+          "tsr": 16.7921,
+          "sharePrice": 60.3681
+        },
+        "U5T4 - Orange": {
+          "tsr": -2.4393,
+          "sharePrice": 42.5535
+        },
+        "U5T5 - Grey": {
+          "tsr": -29.5672,
+          "sharePrice": 22.1787
+        }
+      },
+      "rivalPrices": {
+        "USA": {
+          "RedBull": 28300,
+          "U5T3 - Blue": 28000,
+          "U5T5 - Grey": 35000
+        },
+        "China": {
+          "RedBull": 143000,
+          "U5T3 - Blue": 220000
+        },
+        "Europe": {
+          "RedBull": 25000,
+          "U5T3 - Blue": 27000
+        }
+      }
+    }
+  ]
 }
