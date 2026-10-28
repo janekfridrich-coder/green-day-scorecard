@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=2">
+  <link rel="stylesheet" href="assets/style.css?v=4">
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
@@ -25,6 +25,7 @@
       <nav class="nav" aria-label="Views">
         <a href="#dashboard" data-view="dashboard"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg><span>Dashboard</span></a>
         <a href="#scorecard" data-view="scorecard"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 4a6 6 0 1 1-6 6 6 6 0 0 1 6-6zm0 3a3 3 0 1 0 3 3 3 3 0 0 0-3-3z"/></svg><span>Balanced scorecard</span></a>
+        <a href="#pricing" data-view="pricing"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.4 11.6l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .6 1.4l9 9a2 2 0 0 0 2.8 0l7-7a2 2 0 0 0 0-2.8zM6.5 8A1.5 1.5 0 1 1 8 6.5 1.5 1.5 0 0 1 6.5 8z"/></svg><span>Pricing</span></a>
         <a href="#data" data-view="data"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v4H3V4zm0 6h18v4H3v-4zm0 6h18v4H3v-4z"/></svg><span>Data</span></a>
       </nav>
       <div class="side-foot">
@@ -108,6 +109,18 @@
         <div class="bsc" id="bsc"></div>
       </section>
 
+      <!-- PRICING -->
+      <section class="view" id="view-pricing" hidden>
+        <div class="panel">
+          <div class="panel-head">
+            <div><h2>Our prices vs the universe</h2><p class="muted" id="price-sub">Premium = our price against the rivals' average in the same market. Suggested = proposal for the next round.</p></div>
+          </div>
+          <div class="table-wrap"><table class="price-table" id="price-summary"></table></div>
+        </div>
+        <div class="price-areas" id="price-areas"></div>
+        <p class="foot">How the suggestion works: each feature above the rivals' average is worth about 3.5% of price (practice-round winners). Unsold stock → cut 3%; sold out → raise up to 6%; short total supply → hold or edge up 3%; otherwise move halfway to the feature-adjusted market price. Always check the margin on the Logistics screen before entering a price.</p>
+      </section>
+
       <!-- DATA -->
       <section class="view" id="view-data" hidden>
         <div class="panel table-panel">
@@ -156,10 +169,10 @@
     </form>
   </dialog>
 
-  <script src="assets/kpis.js?v=2"></script>
-  <script src="assets/parser.js?v=2"></script>
-  <script src="assets/charts.js?v=2"></script>
-  <script src="assets/demo.js?v=2"></script>
-  <script src="assets/app.js?v=2"></script>
+  <script src="assets/kpis.js?v=4"></script>
+  <script src="assets/parser.js?v=4"></script>
+  <script src="assets/charts.js?v=4"></script>
+  <script src="assets/demo.js?v=4"></script>
+  <script src="assets/app.js?v=4"></script>
 </body>
 </html>

@@ -10,6 +10,7 @@ const STATUS_TEXT = { good: "On target", warn: "Watch", bad: "Off target", none:
 const VIEWS = {
   dashboard: { title: "Dashboard", eyebrow: "Cesim Global Challenge · Universe 5" },
   scorecard: { title: "Balanced scorecard", eyebrow: "Targets from Green Day: Rules to Win" },
+  pricing: { title: "Pricing", eyebrow: "Our prices vs every rival in Universe 5" },
   data: { title: "Data", eyebrow: "Stored numbers per round" },
 };
 const ALL_KPIS = SCORECARD.flatMap(p => p.kpis);
@@ -100,7 +101,71 @@ function render() {
 
   if (view === "dashboard") { renderHero(d); renderStrip(d); renderRules(d); renderCharts(round, d); }
   if (view === "scorecard") renderScorecard(d);
+  if (view === "pricing") renderPricing(round);
   if (view === "data") renderTable();
+}
+
+/* ---------- pricing ---------- */
+const money = v => (v == null ? "–" : Math.round(v).toLocaleString("en-US"));
+const signed = v => (v == null ? "–" : `${v > 0 ? "+" : ""}${(v * 100).toFixed(1)}%`);
+
+function premiumBar(p) {
+  if (p == null) return "";
+  const w = Math.min(Math.abs(p) / 0.2, 1) * 50;
+  return `<div class="pbar"><span class="pbar-mid"></span><span class="pbar-fill ${p >= 0 ? "pos" : "neg"}" style="${p >= 0 ? "left:50%" : `left:${50 - w}%`};width:${w}%"></span></div>`;
+}
+
+function renderPricing(round) {
+  const rows = pricingRows(round);
+  $("#price-sub").textContent = `${round.label}. Premium = our price against the rivals' average in the same market. Suggested = proposal for the next round.`;
+  if (!rows.length) {
+    $("#price-summary").innerHTML = `<tbody><tr><td class="empty">No market report for ${round.label} yet. Import the round's XLS export to compare prices.</td></tr></tbody>`;
+    $("#price-areas").innerHTML = "";
+    return;
+  }
+  $("#price-summary").innerHTML = `
+    <thead><tr><th>Market</th><th>Our price</th><th>Rivals avg</th><th>Premium</th><th>Price rank</th><th>Features</th><th>Served</th><th>Suggested</th><th>Why</th></tr></thead>
+    <tbody>${rows.map(r => {
+      const st = r.served >= 0.98 ? "good" : r.served >= 0.8 ? "warn" : "bad";
+      return `<tr>
+        <td><b>${r.area}</b> ${r.tech.toLowerCase()}<span class="cur">${r.currency}</span></td>
+        <td class="num"><b>${money(r.us.price)}</b></td>
+        <td class="num">${money(r.avg)}</td>
+        <td class="num"><div class="prem"><span class="${r.premium > 0 ? "up" : r.premium < 0 ? "down" : ""}">${signed(r.premium)}</span>${premiumBar(r.premium)}</div></td>
+        <td class="num">${r.rank} of ${r.all.length}</td>
+        <td class="num">${r.us.features ?? "–"} vs ${r.avgFeat != null ? r.avgFeat.toFixed(1) : "–"}</td>
+        <td><span class="status ${st}"><span class="ic"></span>${Math.round(r.served * 100)}%</span></td>
+        <td class="num suggest">${money(r.target)}<span class="chg ${r.change > 0 ? "up" : r.change < 0 ? "down" : ""}">${signed(r.change)}</span></td>
+        <td class="why">${r.why}</td></tr>`;
+    }).join("")}</tbody>`;
+
+  $("#price-areas").innerHTML = AREAS.map(a => {
+    const techRows = rows.filter(r => r.area === a);
+    if (!techRows.length) return "";
+    return `<article class="panel">
+      <div class="panel-head"><div><h2>${a}</h2><p class="muted">Prices in ${CURRENCY[a]}. Sorted from most expensive.</p></div></div>
+      ${techRows.map(r => `
+        <h3 class="tech-h">${r.tech}<span class="muted"> · rivals ${money(r.min)}–${money(r.max)}, average ${money(r.avg)}</span></h3>
+        <div class="table-wrap"><table class="price-table compact">
+          <thead><tr><th>Team</th><th>Price</th><th>vs us</th><th>vs rivals avg</th><th>Features</th><th>Focus</th><th>Sold / demand (k)</th><th>Served</th></tr></thead>
+          <tbody>${r.all.map(t => {
+            const ours = t.name === round.team;
+            const vsUs = ours ? null : t.price / r.us.price - 1;
+            const served = t.demand ? t.sales / t.demand : null;
+            const st = served == null ? "none" : served >= 0.98 ? "good" : served >= 0.8 ? "warn" : "bad";
+            return `<tr class="${ours ? "ours" : ""}">
+              <td>${ours ? "<b>" + t.name + "</b>" : t.name}</td>
+              <td class="num"><b>${money(t.price)}</b></td>
+              <td class="num ${vsUs > 0 ? "up" : vsUs < 0 ? "down" : ""}">${ours ? "—" : signed(vsUs)}</td>
+              <td class="num">${r.avg ? signed(t.price / r.avg - 1) : "–"}</td>
+              <td class="num">${t.features ?? "–"}</td>
+              <td>${t.focus || "–"}</td>
+              <td class="num">${t.sales != null ? Math.round(t.sales) : "–"} / ${t.demand != null ? Math.round(t.demand) : "–"}</td>
+              <td>${served == null ? "–" : `<span class="status ${st}"><span class="ic"></span>${Math.round(served * 100)}%</span>`}</td></tr>`;
+          }).join("")}</tbody></table></div>
+        <div class="suggest-line">Suggested for next round: <b>${money(r.target)} ${r.currency}</b> <span class="${r.change > 0 ? "up" : r.change < 0 ? "down" : ""}">(${signed(r.change)})</span> — ${r.why}.</div>`).join("")}
+    </article>`;
+  }).join("");
 }
 
 function renderHero(d) {

@@ -49,6 +49,13 @@ function sheetFacts(name, rows, team) {
       if (v != null) { values[t] = v; has = true; }
     }
     if (!has) {
+      /* The marketing focus row holds words, not numbers: keep it as text per team. */
+      if (cols && /^marketing strategy focus/i.test(label)) {
+        const text = {};
+        for (const [i, t] of Object.entries(cols)) { const c = String(cells[i] || "").trim(); if (c) text[t] = c; }
+        if (Object.keys(text).length) facts.push({ sheet: name, section, title, area, tech, label, values: {}, text });
+        continue;
+      }
       if (EMPTY_DATA_RE.test(label)) continue;
       if (AREA_RE.test(label)) { area = normArea(label); tech = null; }
       else if (TECH_RE.test(label)) tech = label[0].toUpperCase() + label.slice(1).toLowerCase();
@@ -138,13 +145,38 @@ function extract(facts, team) {
   if (inv.length) {
     kpi.invUnits = inv.reduce((s, f) => s + f.values[team], 0);
     found.push({ key: "invUnits", value: kpi.invUnits, source: `${inv[0].sheet} › Inventory, k units › sum of ${inv.length} rows` });
+    for (const t of TECHS) {
+      const rows = inv.filter(f => f.label.toLowerCase() === t.toLowerCase());
+      if (rows.length) kpi[`inv_${t}`] = rows.reduce((s, f) => s + f.values[team], 0);
+    }
+  }
+
+  /* Every team's price, features, focus, sales and demand per area and technology. */
+  const market = {};
+  const inReport = f => /market report|tech overview/i.test(`${f.section} ${f.title}`);
+  for (const a of AREAS) for (const t of TECHS) {
+    const pick = re => facts.find(f => f.area === a && f.tech === t && inReport(f) && re.test(f.label));
+    const price = pick(/^selling price/i), feat = pick(/number of offered features/i);
+    const focus = pick(/^marketing strategy focus/i), sold = pick(/^sales, k units/i), dem = pick(/^demand, k units/i);
+    if (!price && !sold && !dem) continue;
+    const names = new Set([price, feat, sold, dem].filter(Boolean).flatMap(f => Object.keys(f.values)));
+    const byTeam = {};
+    for (const n of names) {
+      const row = {
+        price: price ? price.values[n] ?? null : null, features: feat ? feat.values[n] ?? null : null,
+        focus: focus && focus.text ? focus.text[n] ?? null : null,
+        sales: sold ? sold.values[n] ?? null : null, demand: dem ? dem.values[n] ?? null : null,
+      };
+      if ((row.price || 0) > 0 || (row.sales || 0) > 0 || (row.demand || 0) > 0) byTeam[n] = row;
+    }
+    if (Object.keys(byTeam).length) (market[a] = market[a] || {})[t] = byTeam;
   }
 
   if (kpi.dividends != null) {
     kpi.dividends = Math.abs(kpi.dividends);
     found.forEach(f => { if (f.key === "dividends") f.value = kpi.dividends; });
   }
-  return { kpi, teams, rivalPrices, found };
+  return { kpi, teams, rivalPrices, market, found };
 }
 
 /* Merge an import into a round; later files never overwrite values already set by an earlier file. */
@@ -154,5 +186,7 @@ function mergeImport(round, result, overwrite) {
   round.teams = round.teams || {};
   for (const [t, vals] of Object.entries(result.teams)) round.teams[t] = { ...(round.teams[t] || {}), ...vals };
   round.rivalPrices = { ...(round.rivalPrices || {}), ...result.rivalPrices };
+  round.market = round.market || {};
+  for (const [a, techs] of Object.entries(result.market || {})) round.market[a] = { ...(round.market[a] || {}), ...techs };
   return round;
 }

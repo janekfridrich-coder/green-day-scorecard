@@ -171,3 +171,68 @@ function fmt(v, kind) {
     default: return v.toLocaleString("en-US", { maximumFractionDigits: 2 });
   }
 }
+
+/* ---------- Pricing: our price vs every rival, and a suggestion for next round ---------- */
+const CURRENCY = { USA: "USD", China: "RMB", Europe: "EUR" };
+const FEATURE_VALUE = 0.035;   // each extra feature vs the rivals' average is worth about 3.5% of price (practice-round winners)
+
+function roundPrice(v, area) {
+  const step = area === "China" ? 1000 : 100;
+  return Math.round(v / step) * step;
+}
+
+/* One row per area and technology where we sell. Rules, in order:
+   1. Unsold stock of this technology and we are not cheaper than rivals: cut 3%, never above the feature-adjusted price.
+   2. We ran out (sales below 98% of demand): raise towards the feature-adjusted price, at most +6%.
+   3. Our total supply of the technology was short: hold, or edge up at most +3% when below the fair price.
+   4. Otherwise move halfway to the feature-adjusted market price.
+   The suggestion stays within 90-120% of the rivals' average. */
+function pricingRows(round) {
+  const market = round.market || {}, team = round.team, k = round.kpi || {};
+  const techTotals = {};
+  for (const a of AREAS) for (const t of TECHS) {
+    const us = ((market[a] || {})[t] || {})[team];
+    if (!us) continue;
+    const tt = techTotals[t] = techTotals[t] || { sales: 0, demand: 0 };
+    tt.sales += us.sales || 0; tt.demand += us.demand || 0;
+  }
+  const rows = [];
+  for (const a of AREAS) for (const t of TECHS) {
+    const teams = (market[a] || {})[t];
+    const us = teams && teams[team];
+    if (!us || !us.price) continue;
+    const rivals = Object.entries(teams).filter(([n, r]) => n !== team && r.price > 0).map(([n, r]) => ({ name: n, ...r }));
+    const avg = rivals.length ? rivals.reduce((s, r) => s + r.price, 0) / rivals.length : null;
+    const avgFeat = rivals.length ? rivals.reduce((s, r) => s + (r.features || 0), 0) / rivals.length : null;
+    const all = [{ name: team, ...us }, ...rivals].sort((x, y) => y.price - x.price);
+    const tot = techTotals[t] || { sales: 0, demand: 0 };
+    const stock = k[`inv_${t}`];
+    const stockRatio = stock != null && tot.sales ? stock / tot.sales : 0;
+    const shortage = tot.demand ? (tot.demand - tot.sales) / tot.demand : 0;
+    const served = us.demand ? us.sales / us.demand : 1;
+    const premium = avg ? us.price / avg - 1 : null;
+    const fair = avg != null ? avg * (1 + FEATURE_VALUE * ((us.features || 0) - avgFeat)) : us.price;
+    let target, why;
+    if (stockRatio > 0.05 && (premium == null || premium >= -0.02)) {
+      target = Math.min(fair, us.price * 0.97);
+      why = `${Math.round(stock)}k ${t.toLowerCase()} cars unsold; cut to clear stock`;
+    } else if (served < 0.98) {
+      target = Math.min(Math.max(fair, us.price * 1.02), us.price * 1.06);
+      why = `Sold out: ${Math.round(us.demand - us.sales)}k cars of demand unmet; raise the price`;
+    } else if (shortage > 0.05) {
+      target = us.price < fair ? Math.min(us.price + (fair - us.price) / 2, us.price * 1.03) : us.price;
+      why = `Our ${t.toLowerCase()} supply was ${Math.round(shortage * 100)}% short overall; ${us.price < fair ? "edge up" : "hold"}`;
+    } else {
+      target = us.price + (fair - us.price) / 2;
+      why = target > us.price ? "Below the feature-adjusted market price; move up halfway" : target < us.price ? "Above the feature-adjusted market price; move down halfway" : "In line with the market";
+    }
+    if (avg != null) target = Math.min(Math.max(target, avg * 0.9), avg * 1.2);
+    target = roundPrice(target, a);
+    rows.push({
+      area: a, tech: t, currency: CURRENCY[a], us, rivals, all, avg, avgFeat, premium, fair,
+      min: rivals.length ? Math.min(...rivals.map(r => r.price)) : null, max: rivals.length ? Math.max(...rivals.map(r => r.price)) : null,
+      rank: all.findIndex(r => r.name === team) + 1, served, target, change: target / us.price - 1, why,
+    });
+  }
+  return rows;
+}
