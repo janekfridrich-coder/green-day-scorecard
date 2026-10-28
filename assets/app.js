@@ -10,6 +10,7 @@ const STATUS_TEXT = { good: "On target", warn: "Watch", bad: "Off target", none:
 const VIEWS = {
   dashboard: { title: "Dashboard", eyebrow: "Cesim Global Challenge · Universe 5" },
   scorecard: { title: "Balanced scorecard", eyebrow: "Targets from Green Day: Rules to Win" },
+  sales: { title: "Sales", eyebrow: "Every region and technology at a glance" },
   pricing: { title: "Pricing", eyebrow: "Our prices vs every rival in Universe 5" },
   data: { title: "Data", eyebrow: "Stored numbers per round" },
 };
@@ -101,8 +102,108 @@ function render() {
 
   if (view === "dashboard") { renderHero(d); renderStrip(d); renderRules(d); renderCharts(round, d); }
   if (view === "scorecard") renderScorecard(d);
+  if (view === "sales") renderSales(round);
   if (view === "pricing") renderPricing(round);
   if (view === "data") renderTable();
+}
+
+/* ---------- sales ---------- */
+const pts = v => (v == null ? "–" : `${v > 0 ? "+" : ""}${v.toFixed(1)} pts`);
+const cls = v => (v > 0 ? "up" : v < 0 ? "down" : "");
+
+function renderSales(round) {
+  const prev = prevOf(round);
+  const rows = salesRows(round, prev);
+  const prows = prev ? salesRows(prev, prevOf(prev)) : [];
+  $("#sales-sub").textContent = `${round.label}. Our cars sold, share of the technology in that region, rank among the teams and change vs ${prev ? prev.label : "last round"}.`;
+  if (!rows.length) {
+    $("#sales-hero").innerHTML = "";
+    $("#sales-matrix").innerHTML = `<p class="empty">No market report for ${round.label} yet. Import the round's XLS export.</p>`;
+    $("#sales-areas").innerHTML = $("#sales-revenue").innerHTML = "";
+    ["#chart-sales-c", "#chart-sales-h"].forEach(id => ($(id).innerHTML = ""));
+    return;
+  }
+  const sum = (rs, f) => rs.reduce((s, r) => s + f(r), 0);
+  const sold = sum(rows, r => r.us.sales), pSold = prows.length ? sum(prows, r => r.us.sales) : null;
+  const hy = sum(rows.filter(r => r.tech === "Hybrid"), r => r.us.sales);
+  const pHy = prows.length ? sum(prows.filter(r => r.tech === "Hybrid"), r => r.us.sales) : null;
+  const lost = sum(rows, r => r.us.unmet), pLost = prows.length ? sum(prows, r => r.us.unmet) : null;
+  const all = sum(rows, r => r.total), share = all ? sold / all * 100 : null;
+  const pShare = prows.length ? sum(prows, r => r.us.sales) / sum(prows, r => r.total) * 100 : null;
+  const rev = sum(rows, r => r.revenueUSD), pRev = prows.length ? sum(prows, r => r.revenueUSD) : null;
+  const tile = (k, v, d, extra = "") => `<div class="panel hero-card"><div class="k"><span>${k}</span>${extra}</div><div class="v">${v}</div><div class="meta"><div>${d}</div></div></div>`;
+  const dPct = (v, p, invert) => {
+    if (v == null || p == null || !p) return `<span class="delta-note">First round</span>`;
+    const c = v / p - 1, good = invert ? c < 0 : c > 0;
+    return `<span class="delta ${Math.abs(c) < 1e-9 ? "" : good ? "up" : "down"}">${c > 0 ? "▲" : c < 0 ? "▼" : "■"} ${Math.abs(c * 100).toFixed(1)}% vs last round</span>`;
+  };
+  $("#sales-hero").innerHTML = [
+    tile("Cars sold", `${Math.round(sold).toLocaleString("en-US")}k`, dPct(sold, pSold)),
+    tile("Share of cars sold in the universe", share != null ? `${share.toFixed(1)}%` : "–",
+      pShare != null ? `<span class="delta ${cls(share - pShare)}">${share >= pShare ? "▲" : "▼"} ${pts(share - pShare)}</span>` : `<span class="delta-note">First round</span>`),
+    tile("Revenue from cars (approx.)", `$${(rev / 1000).toFixed(1)}bn`, dPct(rev, pRev)),
+    tile("Hybrid share of our sales", `${(hy / sold * 100).toFixed(0)}%`, pHy != null && pSold ? `<span class="delta ${cls(hy / sold - pHy / pSold)}">${pts((hy / sold - pHy / pSold) * 100)}</span>` : `<span class="delta-note">First round</span>`),
+    tile("Cars lost (unmet demand)", `${Math.round(lost).toLocaleString("en-US")}k`, dPct(lost, pLost, true)),
+  ].join("");
+
+  $("#sales-matrix").innerHTML = `<div class="matrix-head"></div>${AREAS.map(a => `<div class="matrix-head">${a}</div>`).join("")}` +
+    ["Combustion", "Hybrid"].map(t => `<div class="matrix-row">${t}</div>` + AREAS.map(a => {
+      const r = rows.find(x => x.area === a && x.tech === t);
+      if (!r) return `<div class="cell empty" data-area="${a}">Not sold</div>`;
+      const d = r.us.prevShare != null ? r.us.share - r.us.prevShare : null;
+      const st = r.served >= 0.98 ? "good" : r.served >= 0.8 ? "warn" : "bad";
+      return `<div class="cell ${r.rank === 1 ? "lead" : ""}" data-area="${a}">
+        <div class="cell-top"><span class="rank-pill r${Math.min(r.rank, 3)}">#${r.rank} of ${r.teams}</span><span class="status ${st}"><span class="ic"></span>${Math.round(r.served * 100)}% served</span></div>
+        <div class="cell-v">${Math.round(r.us.sales).toLocaleString("en-US")}k <small>sold</small></div>
+        <div class="cell-share"><b>${r.us.share.toFixed(1)}%</b> share <span class="${cls(d)}">${pts(d)}</span></div>
+        <div class="sharebar"><span style="width:${Math.min(100, r.us.share * 2)}%"></span></div>
+        <div class="cell-meta">${(r.us.price || 0).toLocaleString("en-US")} ${CURRENCY[a]} · ${r.us.features ?? "–"} features · ${r.us.focus || "–"}</div>
+        <div class="cell-meta">Leader: ${r.rank === 1 ? "<b>us</b>" : `${r.leader.name} ${Math.round(r.leader.sales)}k (${r.leader.share.toFixed(1)}%)`}${r.us.unmet > 0.5 ? ` · <span class="down">${Math.round(r.us.unmet)}k lost</span>` : ""}</div>
+      </div>`;
+    }).join("")).join("");
+
+  const rounds = chartRounds();
+  const labels = rounds.map(r => r.label.replace("Round ", "R").replace("Practice ", "P"));
+  ["Combustion", "Hybrid"].forEach((t, k) => {
+    lineChart($(k ? "#chart-sales-h" : "#chart-sales-c"), { labels, yFmt: v => `${Math.round(v)}k`, series: AREAS.map((a, i) => ({
+      name: a, color: `var(--series-${i + 1})`,
+      values: rounds.map(r => { const v = r.kpi && r.kpi[`sold_${a}_${t}`]; return v == null ? null : v; }),
+    })) });
+  });
+
+  const maxRev = Math.max(...rows.map(r => r.revenueUSD), 1);
+  $("#sales-revenue").innerHTML = [...rows].sort((x, y) => y.revenueUSD - x.revenueUSD).map(r => `
+    <div class="fill-row">
+      <div class="fill-top"><span class="fill-label"><span class="swatch" style="background:var(${r.tech === "Hybrid" ? "--series-2" : "--series-1"})"></span> ${r.area} ${r.tech.toLowerCase()}</span><span class="fill-value"><b>$${(r.revenueUSD / 1000).toFixed(1)}bn</b> · ${(r.revenueUSD / rev * 100).toFixed(0)}%</span></div>
+      <div class="fill-track"><div class="fill-bar ${r.tech === "Hybrid" ? "cat-h" : "cat-c"}" style="width:${r.revenueUSD / maxRev * 100}%"></div></div>
+    </div>`).join("");
+
+  $("#sales-areas").innerHTML = AREAS.map(a => {
+    const techRows = rows.filter(r => r.area === a);
+    if (!techRows.length) return "";
+    return `<article class="panel">
+      <div class="panel-head"><div><h2>${a}: who sells what</h2><p class="muted">All teams, ranked by cars sold. Share = share of that technology's cars sold in ${a}.</p></div></div>
+      ${techRows.map(r => `
+        <h3 class="tech-h">${r.tech}<span class="muted"> · market ${Math.round(r.total).toLocaleString("en-US")}k sold, ${Math.round(r.totalDemand).toLocaleString("en-US")}k demand</span></h3>
+        <div class="table-wrap"><table class="price-table compact sales-table">
+          <thead><tr><th>#</th><th>Team</th><th>Sold (k)</th><th>Share</th><th>Change</th><th>Demand (k)</th><th>Lost (k)</th><th>Price</th><th>Features</th><th>Focus</th></tr></thead>
+          <tbody>${r.list.map((t, i) => {
+            const ours = t.name === round.team;
+            const d = t.prevShare != null ? t.share - t.prevShare : null;
+            return `<tr class="${ours ? "ours" : ""}">
+              <td class="num">${i + 1}</td>
+              <td>${ours ? "<b>" + t.name + "</b>" : t.name}</td>
+              <td class="num"><b>${Math.round(t.sales)}</b></td>
+              <td class="num"><div class="prem"><span>${t.share.toFixed(1)}%</span><div class="minibar"><span style="width:${Math.min(100, t.share * 2)}%"></span></div></div></td>
+              <td class="num ${cls(d)}">${pts(d)}</td>
+              <td class="num">${Math.round(t.demand)}</td>
+              <td class="num ${t.unmet > 0.5 ? "down" : ""}">${t.unmet > 0.5 ? Math.round(t.unmet) : "–"}</td>
+              <td class="num">${t.price ? t.price.toLocaleString("en-US") : "–"}</td>
+              <td class="num">${t.features ?? "–"}</td>
+              <td>${t.focus || "–"}</td></tr>`;
+          }).join("")}</tbody></table></div>`).join("")}
+    </article>`;
+  }).join("");
 }
 
 /* ---------- pricing ---------- */

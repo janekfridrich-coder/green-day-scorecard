@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=7">
+  <link rel="stylesheet" href="assets/style.css?v=12">
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
@@ -25,6 +25,7 @@
       <nav class="nav" aria-label="Views">
         <a href="#dashboard" data-view="dashboard"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg><span>Dashboard</span></a>
         <a href="#scorecard" data-view="scorecard"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 4a6 6 0 1 1-6 6 6 6 0 0 1 6-6zm0 3a3 3 0 1 0 3 3 3 3 0 0 0-3-3z"/></svg><span>Balanced scorecard</span></a>
+        <a href="#sales" data-view="sales"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8v5h2V3h-9v2h5l-6 6-4-4-7.5 7.5z"/></svg><span>Sales</span></a>
         <a href="#pricing" data-view="pricing"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.4 11.6l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .6 1.4l9 9a2 2 0 0 0 2.8 0l7-7a2 2 0 0 0 0-2.8zM6.5 8A1.5 1.5 0 1 1 8 6.5 1.5 1.5 0 0 1 6.5 8z"/></svg><span>Pricing</span></a>
         <a href="#data" data-view="data"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v4H3V4zm0 6h18v4H3v-4zm0 6h18v4H3v-4z"/></svg><span>Data</span></a>
       </nav>
@@ -109,6 +110,30 @@
         <div class="bsc" id="bsc"></div>
       </section>
 
+      <!-- SALES -->
+      <section class="view" id="view-sales" hidden>
+        <div class="hero sales-hero" id="sales-hero"></div>
+        <div class="panel">
+          <div class="panel-head"><div><h2>Market matrix</h2><p class="muted" id="sales-sub">Our cars sold, share of the technology in that region, rank among 5 teams and change vs last round.</p></div></div>
+          <div class="matrix" id="sales-matrix"></div>
+        </div>
+        <div class="grid charts">
+          <article class="panel">
+            <div class="panel-head"><div><h2>Combustion sold by region</h2><p class="muted">Our cars sold, k units.</p></div></div>
+            <div class="chart" id="chart-sales-c"></div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><div><h2>Hybrid sold by region</h2><p class="muted">Our cars sold, k units.</p></div></div>
+            <div class="chart" id="chart-sales-h"></div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><div><h2>Revenue by market</h2><p class="muted">Approximate, price × cars sold, bn USD.</p></div></div>
+            <div id="sales-revenue" class="fill-list"></div>
+          </article>
+        </div>
+        <div class="price-areas" id="sales-areas"></div>
+      </section>
+
       <!-- PRICING -->
       <section class="view" id="view-pricing" hidden>
         <div class="panel">
@@ -175,10 +200,10 @@
     </form>
   </dialog>
 
-  <script src="assets/kpis.js?v=7"></script>
-  <script src="assets/parser.js?v=7"></script>
-  <script src="assets/charts.js?v=7"></script>
-  <script src="assets/demo.js?v=7"></script>
-  <script src="assets/app.js?v=7"></script>
+  <script src="assets/kpis.js?v=12"></script>
+  <script src="assets/parser.js?v=12"></script>
+  <script src="assets/charts.js?v=12"></script>
+  <script src="assets/demo.js?v=12"></script>
+  <script src="assets/app.js?v=12"></script>
 </body>
 </html>

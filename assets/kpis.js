@@ -242,3 +242,40 @@ function pricingRows(round) {
   }
   return rows;
 }
+
+/* ---------- Sales: volume, share and rank per region and technology ---------- */
+/* USD per unit of local currency, by round (Cesim market outlook). */
+const FX = {
+  default: { USA: 1, China: 0.145, Europe: 1.2338 },
+  P1: { USA: 1, China: 0.145, Europe: 1.175 }, R1: { USA: 1, China: 0.145, Europe: 1.175 },
+  P2: { USA: 1, China: 0.145, Europe: 1.2338 }, R2: { USA: 1, China: 0.145, Europe: 1.2338 },
+  R3: { USA: 1, China: 0.145, Europe: 1.2584 },
+};
+const fxFor = id => FX[id] || FX.default;
+
+function salesRows(round, prev) {
+  const team = round.team, fx = fxFor(round.id), out = [];
+  for (const a of AREAS) for (const t of TECHS) {
+    const teams = (round.market || {})[a] && round.market[a][t];
+    if (!teams) continue;
+    const list = Object.entries(teams).map(([name, r]) => ({ name, ...r, sales: r.sales || 0, demand: r.demand || 0 }));
+    const total = list.reduce((s, r) => s + r.sales, 0);
+    const totalDemand = list.reduce((s, r) => s + r.demand, 0);
+    list.forEach(r => { r.share = total ? r.sales / total * 100 : 0; r.unmet = Math.max(0, r.demand - r.sales); });
+    list.sort((x, y) => y.sales - x.sales);
+    const pTeams = prev && prev.market && prev.market[a] && prev.market[a][t];
+    if (pTeams) {
+      const pTotal = Object.values(pTeams).reduce((s, r) => s + (r.sales || 0), 0);
+      list.forEach(r => { const p = pTeams[r.name]; r.prevShare = p && pTotal ? (p.sales || 0) / pTotal * 100 : null; r.prevSales = p ? p.sales || 0 : null; });
+    }
+    const us = list.find(r => r.name === team);
+    if (!us) continue;
+    const leader = list.find(r => r.name !== team);
+    out.push({
+      area: a, tech: t, list, total, totalDemand, us, rank: list.indexOf(us) + 1, teams: list.length,
+      leader, revenueUSD: us.sales * (us.price || 0) * fx[a] / 1000,   // M USD (sales in k units)
+      served: us.demand ? us.sales / us.demand : 1,
+    });
+  }
+  return out;
+}
