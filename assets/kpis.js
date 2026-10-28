@@ -205,6 +205,11 @@ function pricingRows(round) {
     const avg = rivals.length ? rivals.reduce((s, r) => s + r.price, 0) / rivals.length : null;
     const avgFeat = rivals.length ? rivals.reduce((s, r) => s + (r.features || 0), 0) / rivals.length : null;
     const all = [{ name: team, ...us }, ...rivals].sort((x, y) => y.price - x.price);
+    /* The two strongest rivals in this market: most cars sold, then most demand. */
+    const top2 = [...rivals].sort((x, y) => (y.sales || 0) - (x.sales || 0) || (y.demand || 0) - (x.demand || 0)).slice(0, 2);
+    const top2Avg = top2.length ? top2.reduce((s, r) => s + r.price, 0) / top2.length : null;
+    const top2Feat = top2.length ? top2.reduce((s, r) => s + (r.features || 0), 0) / top2.length : null;
+    const top2Sales = top2.reduce((s, r) => s + (r.sales || 0), 0);
     const tot = techTotals[t] || { sales: 0, demand: 0 };
     const stock = k[`inv_${t}`];
     const stockRatio = stock != null && tot.sales ? stock / tot.sales : 0;
@@ -232,6 +237,7 @@ function pricingRows(round) {
       area: a, tech: t, currency: CURRENCY[a], us, rivals, all, avg, avgFeat, premium, fair,
       min: rivals.length ? Math.min(...rivals.map(r => r.price)) : null, max: rivals.length ? Math.max(...rivals.map(r => r.price)) : null,
       rank: all.findIndex(r => r.name === team) + 1, served, target, change: target / us.price - 1, why,
+      top2, top2Avg, top2Feat, top2Sales, premiumTop2: top2Avg ? us.price / top2Avg - 1 : null,
     });
   }
   return rows;

@@ -139,25 +139,41 @@ function renderPricing(round) {
         <td class="why">${r.why}</td></tr>`;
     }).join("")}</tbody>`;
 
+  $("#price-top2").innerHTML = `
+    <thead><tr><th>Market</th><th>Our price</th><th>Best two rivals</th><th>Their avg</th><th>Us vs them</th><th>Features</th><th>Sold (k), us / them</th></tr></thead>
+    <tbody>${rows.map(r => {
+      const ourSold = r.us.sales || 0, theirSold = r.top2.length ? r.top2Sales / r.top2.length : null;
+      const soldGap = theirSold ? ourSold / theirSold - 1 : null;
+      return `<tr>
+        <td><b>${r.area}</b> ${r.tech.toLowerCase()}<span class="cur">${r.currency}</span></td>
+        <td class="num"><b>${money(r.us.price)}</b></td>
+        <td class="names">${r.top2.map(t => `<div class="rival"><span>${t.name}</span><span class="muted">${money(t.price)} · ${t.features ?? "–"} feat. · ${Math.round(t.sales || 0)}k sold</span></div>`).join("") || "–"}</td>
+        <td class="num">${money(r.top2Avg)}</td>
+        <td class="num"><div class="prem"><span class="${r.premiumTop2 > 0 ? "up" : r.premiumTop2 < 0 ? "down" : ""}">${signed(r.premiumTop2)}</span>${premiumBar(r.premiumTop2)}</div></td>
+        <td class="num">${r.us.features ?? "–"} vs ${r.top2Feat != null ? r.top2Feat.toFixed(1) : "–"}</td>
+        <td class="num">${Math.round(ourSold)} / ${theirSold != null ? Math.round(theirSold) : "–"} <span class="${soldGap > 0 ? "up" : soldGap < 0 ? "down" : ""}">${signed(soldGap)}</span></td></tr>`;
+    }).join("")}</tbody>`;
+
   $("#price-areas").innerHTML = AREAS.map(a => {
     const techRows = rows.filter(r => r.area === a);
     if (!techRows.length) return "";
     return `<article class="panel">
       <div class="panel-head"><div><h2>${a}</h2><p class="muted">Prices in ${CURRENCY[a]}. Sorted from most expensive.</p></div></div>
       ${techRows.map(r => `
-        <h3 class="tech-h">${r.tech}<span class="muted"> · rivals ${money(r.min)}–${money(r.max)}, average ${money(r.avg)}</span></h3>
+        <h3 class="tech-h">${r.tech}<span class="muted"> · rivals ${money(r.min)}–${money(r.max)}, average ${money(r.avg)} · best two average ${money(r.top2Avg)}</span></h3>
         <div class="table-wrap"><table class="price-table compact">
-          <thead><tr><th>Team</th><th>Price</th><th>vs us</th><th>vs rivals avg</th><th>Features</th><th>Focus</th><th>Sold / demand (k)</th><th>Served</th></tr></thead>
+          <thead><tr><th>Team</th><th>Price</th><th>vs us</th><th>vs rivals avg</th><th>vs best two</th><th>Features</th><th>Focus</th><th>Sold / demand (k)</th><th>Served</th></tr></thead>
           <tbody>${r.all.map(t => {
             const ours = t.name === round.team;
             const vsUs = ours ? null : t.price / r.us.price - 1;
             const served = t.demand ? t.sales / t.demand : null;
             const st = served == null ? "none" : served >= 0.98 ? "good" : served >= 0.8 ? "warn" : "bad";
             return `<tr class="${ours ? "ours" : ""}">
-              <td>${ours ? "<b>" + t.name + "</b>" : t.name}</td>
+              <td>${ours ? "<b>" + t.name + "</b>" : t.name}${r.top2.some(x => x.name === t.name) ? ' <span class="top2">Top 2</span>' : ""}</td>
               <td class="num"><b>${money(t.price)}</b></td>
               <td class="num ${vsUs > 0 ? "up" : vsUs < 0 ? "down" : ""}">${ours ? "—" : signed(vsUs)}</td>
               <td class="num">${r.avg ? signed(t.price / r.avg - 1) : "–"}</td>
+              <td class="num">${r.top2Avg ? signed(t.price / r.top2Avg - 1) : "–"}</td>
               <td class="num">${t.features ?? "–"}</td>
               <td>${t.focus || "–"}</td>
               <td class="num">${t.sales != null ? Math.round(t.sales) : "–"} / ${t.demand != null ? Math.round(t.demand) : "–"}</td>
