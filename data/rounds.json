@@ -429,7 +429,9 @@
         "price_Europe_Hybrid": 27500,
         "feat_Europe_Hybrid": 2,
         "sold_Europe_Hybrid": 403,
-        "dem_Europe_Hybrid": 403
+        "dem_Europe_Hybrid": 403,
+        "rdEfficiency": 0.939,
+        "turnover": 3.2
       },
       "teams": {
         "Green Day": {
@@ -733,7 +735,9 @@
         "price_Europe_Hybrid": 27500,
         "feat_Europe_Hybrid": 2,
         "sold_Europe_Hybrid": 464,
-        "dem_Europe_Hybrid": 464
+        "dem_Europe_Hybrid": 464,
+        "rdEfficiency": 0.959,
+        "turnover": 2.8
       },
       "teams": {
         "Green Day": {
