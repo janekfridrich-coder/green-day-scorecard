@@ -60,7 +60,7 @@
         "U5T4 - Orange": {
           "tsr": -7.37
         },
-        "U5T5 - Grey": {
+        "U5T5 - Great": {
           "tsr": -35.05
         }
       },
@@ -142,7 +142,7 @@
           "tsr": -2.439295088936355,
           "sharePrice": 42.55352430639827
         },
-        "U5T5 - Grey": {
+        "U5T5 - Great": {
           "tsr": -29.567179855330373,
           "sharePrice": 22.17868696392773
         }
@@ -151,7 +151,7 @@
         "USA": {
           "RedBull": 28300,
           "U5T3 - Blue": 28000,
-          "U5T5 - Grey": 35000
+          "U5T5 - Great": 35000
         },
         "China": {
           "RedBull": 143000,
@@ -193,7 +193,7 @@
               "sales": 475.824,
               "demand": 475.824
             },
-            "U5T5 - Grey": {
+            "U5T5 - Great": {
               "price": 19500,
               "features": 3,
               "focus": "Balanced",
@@ -223,7 +223,7 @@
               "sales": 344.761,
               "demand": 344.761
             },
-            "U5T5 - Grey": {
+            "U5T5 - Great": {
               "price": 35000,
               "features": 1,
               "focus": "Balanced",
@@ -262,7 +262,7 @@
               "sales": 268.22,
               "demand": 268.22
             },
-            "U5T5 - Grey": {
+            "U5T5 - Great": {
               "price": 125000,
               "features": 6,
               "focus": "Features",
@@ -294,7 +294,7 @@
             }
           },
           "Electric": {
-            "U5T5 - Grey": {
+            "U5T5 - Great": {
               "price": 210000,
               "features": 1,
               "focus": "Brand",
@@ -333,7 +333,7 @@
               "sales": 533.505,
               "demand": 533.505
             },
-            "U5T5 - Grey": {
+            "U5T5 - Great": {
               "price": 20000,
               "features": 2,
               "focus": "Sustainability",
@@ -365,7 +365,7 @@
             }
           },
           "Electric": {
-            "U5T5 - Grey": {
+            "U5T5 - Great": {
               "price": 28000,
               "features": 1,
               "focus": "Sustainability",
@@ -448,7 +448,7 @@
           "tsr": 13.89,
           "sharePrice": 49.32
         },
-        "U5T5 - Grey": {
+        "U5T5 - Great": {
           "tsr": 17.07,
           "sharePrice": 52.34
         }
@@ -501,7 +501,7 @@
               "sales": 460,
               "demand": 460
             },
-            "U5T5 - Grey": {
+            "U5T5 - Great": {
               "price": 20350,
               "features": 3,
               "focus": "Brand",
@@ -570,7 +570,7 @@
               "sales": 321,
               "demand": 321
             },
-            "U5T5 - Grey": {
+            "U5T5 - Great": {
               "price": 125000,
               "features": 6,
               "focus": "Features",
@@ -639,7 +639,7 @@
               "sales": 556,
               "demand": 556
             },
-            "U5T5 - Grey": {
+            "U5T5 - Great": {
               "price": 22000,
               "features": 2,
               "focus": "Sustainability",
@@ -675,6 +675,334 @@
               "focus": "Sustainability",
               "sales": 320,
               "demand": 387
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "R2",
+      "label": "Round 2",
+      "practice": false,
+      "team": "Green Day",
+      "kpi": {
+        "tsr": 45.38,
+        "sharePrice": 92.48,
+        "eps": 4.76,
+        "ebitdaPct": 16.22,
+        "roce": 37.39,
+        "equityRatio": 72.12,
+        "esg": 3.11,
+        "shares": 1600000,
+        "revenue": 69706679,
+        "profit": 7617499,
+        "cash": 8876087,
+        "ltDebt": 5900000,
+        "stDebt": 0,
+        "inventoryValue": 5542176,
+        "dividends": 500000,
+        "invUnits": 344,
+        "inv_Combustion": 113,
+        "inv_Hybrid": 231,
+        "capUSA": 35,
+        "capChina": 70,
+        "rdHybridPct": 40,
+        "shareUSA": 25.09,
+        "shareChina": 24.76,
+        "shareEurope": 22.9,
+        "price_USA_Combustion": 20100,
+        "feat_USA_Combustion": 4,
+        "sold_USA_Combustion": 514,
+        "dem_USA_Combustion": 514,
+        "price_USA_Hybrid": 26000,
+        "feat_USA_Hybrid": 2,
+        "sold_USA_Hybrid": 388,
+        "dem_USA_Hybrid": 388,
+        "price_China_Combustion": 126000,
+        "feat_China_Combustion": 6,
+        "sold_China_Combustion": 376,
+        "dem_China_Combustion": 376,
+        "price_China_Hybrid": 171000,
+        "feat_China_Hybrid": 2,
+        "sold_China_Hybrid": 330,
+        "dem_China_Hybrid": 330,
+        "price_Europe_Combustion": 21200,
+        "feat_Europe_Combustion": 3,
+        "sold_Europe_Combustion": 692,
+        "dem_Europe_Combustion": 692,
+        "price_Europe_Hybrid": 27500,
+        "feat_Europe_Hybrid": 2,
+        "sold_Europe_Hybrid": 464,
+        "dem_Europe_Hybrid": 464
+      },
+      "teams": {
+        "Green Day": {
+          "tsr": 45.38,
+          "sharePrice": 92.48
+        },
+        "RedBull": {
+          "tsr": 44.3,
+          "sharePrice": 89.51
+        },
+        "U5T3 - Blue": {
+          "tsr": 51.29,
+          "sharePrice": 99.02
+        },
+        "U5T4 - Orange": {
+          "tsr": 29.77,
+          "sharePrice": 73.54
+        },
+        "U5T5 - Great": {
+          "tsr": 29.54,
+          "sharePrice": 74.41
+        }
+      },
+      "rivalPrices": {
+        "USA": {
+          "RedBull": 27500,
+          "U5T3 - Blue": 27000,
+          "U5T4 - Orange": 26500,
+          "U5T5 - Great": 33000
+        },
+        "China": {
+          "RedBull": 155000,
+          "U5T3 - Blue": 165000,
+          "U5T4 - Orange": 245000,
+          "U5T5 - Great": 163000
+        },
+        "Europe": {
+          "RedBull": 30000,
+          "U5T3 - Blue": 26000,
+          "U5T4 - Orange": 27000,
+          "U5T5 - Great": 30000
+        }
+      },
+      "market": {
+        "USA": {
+          "Combustion": {
+            "Green Day": {
+              "price": 20100,
+              "features": 4,
+              "focus": "Brand",
+              "sales": 514,
+              "demand": 514
+            },
+            "RedBull": {
+              "price": 21000,
+              "features": 3,
+              "focus": "Balanced",
+              "sales": 441,
+              "demand": 441
+            },
+            "U5T3 - Blue": {
+              "price": 20000,
+              "features": 4,
+              "focus": "Brand",
+              "sales": 492,
+              "demand": 492
+            },
+            "U5T4 - Orange": {
+              "price": 22000,
+              "features": 3,
+              "focus": "Brand",
+              "sales": 323,
+              "demand": 323
+            },
+            "U5T5 - Great": {
+              "price": 20350,
+              "features": 3,
+              "focus": "Brand",
+              "sales": 528,
+              "demand": 528
+            }
+          },
+          "Hybrid": {
+            "Green Day": {
+              "price": 26000,
+              "features": 2,
+              "focus": "Brand",
+              "sales": 388,
+              "demand": 388
+            },
+            "RedBull": {
+              "price": 27500,
+              "features": 1,
+              "focus": "Balanced",
+              "sales": 326,
+              "demand": 326
+            },
+            "U5T3 - Blue": {
+              "price": 27000,
+              "features": 2,
+              "focus": "Brand",
+              "sales": 374,
+              "demand": 374
+            },
+            "U5T4 - Orange": {
+              "price": 26500,
+              "features": 2,
+              "focus": "Sustainability",
+              "sales": 213,
+              "demand": 354
+            },
+            "U5T5 - Great": {
+              "price": 33000,
+              "features": 1,
+              "focus": "Brand",
+              "sales": 0,
+              "demand": 176
+            }
+          }
+        },
+        "China": {
+          "Combustion": {
+            "Green Day": {
+              "price": 126000,
+              "features": 6,
+              "focus": "Features",
+              "sales": 376,
+              "demand": 376
+            },
+            "RedBull": {
+              "price": 125000,
+              "features": 6,
+              "focus": "Features",
+              "sales": 360,
+              "demand": 360
+            },
+            "U5T3 - Blue": {
+              "price": 124800,
+              "features": 5,
+              "focus": "Features",
+              "sales": 269,
+              "demand": 269
+            },
+            "U5T4 - Orange": {
+              "price": 128000,
+              "features": 5,
+              "focus": "Low price",
+              "sales": 255,
+              "demand": 255
+            },
+            "U5T5 - Great": {
+              "price": 130000,
+              "features": 6,
+              "focus": "Features",
+              "sales": 429,
+              "demand": 429
+            }
+          },
+          "Hybrid": {
+            "Green Day": {
+              "price": 171000,
+              "features": 2,
+              "focus": "Features",
+              "sales": 330,
+              "demand": 330
+            },
+            "RedBull": {
+              "price": 155000,
+              "features": 2,
+              "focus": "Features",
+              "sales": 413,
+              "demand": 413
+            },
+            "U5T3 - Blue": {
+              "price": 165000,
+              "features": 3,
+              "focus": "Features",
+              "sales": 188,
+              "demand": 368
+            },
+            "U5T4 - Orange": {
+              "price": 245000,
+              "features": 3,
+              "focus": "Features",
+              "sales": 104,
+              "demand": 104
+            },
+            "U5T5 - Great": {
+              "price": 163000,
+              "features": 1,
+              "focus": "Features",
+              "sales": 127,
+              "demand": 216
+            }
+          }
+        },
+        "Europe": {
+          "Combustion": {
+            "Green Day": {
+              "price": 21200,
+              "features": 3,
+              "focus": "Sustainability",
+              "sales": 692,
+              "demand": 692
+            },
+            "RedBull": {
+              "price": 23000,
+              "features": 2,
+              "focus": "Sustainability",
+              "sales": 527,
+              "demand": 527
+            },
+            "U5T3 - Blue": {
+              "price": 21300,
+              "features": 2,
+              "focus": "Sustainability",
+              "sales": 561,
+              "demand": 561
+            },
+            "U5T4 - Orange": {
+              "price": 18800,
+              "features": 2,
+              "focus": "Sustainability",
+              "sales": 595,
+              "demand": 595
+            },
+            "U5T5 - Great": {
+              "price": 23000,
+              "features": 2,
+              "focus": "Sustainability",
+              "sales": 669,
+              "demand": 669
+            }
+          },
+          "Hybrid": {
+            "Green Day": {
+              "price": 27500,
+              "features": 2,
+              "focus": "Sustainability",
+              "sales": 464,
+              "demand": 464
+            },
+            "RedBull": {
+              "price": 30000,
+              "features": 1,
+              "focus": "Sustainability",
+              "sales": 306,
+              "demand": 306
+            },
+            "U5T3 - Blue": {
+              "price": 26000,
+              "features": 2,
+              "focus": "Sustainability",
+              "sales": 478,
+              "demand": 478
+            },
+            "U5T4 - Orange": {
+              "price": 27000,
+              "features": 2,
+              "focus": "Sustainability",
+              "sales": 384,
+              "demand": 384
+            },
+            "U5T5 - Great": {
+              "price": 30000,
+              "features": 1,
+              "focus": "Sustainability",
+              "sales": 376,
+              "demand": 376
             }
           }
         }
