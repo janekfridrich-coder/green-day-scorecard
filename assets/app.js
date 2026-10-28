@@ -12,6 +12,7 @@ const VIEWS = {
   scorecard: { title: "Balanced scorecard", eyebrow: "Targets from Green Day: Rules to Win" },
   sales: { title: "Sales", eyebrow: "Every region and technology at a glance" },
   pricing: { title: "Pricing", eyebrow: "Our prices vs every rival in Universe 5" },
+  gaps: { title: "Gap analysis", eyebrow: "Forecast vs actual and us vs rivals, Rounds 1–3" },
   data: { title: "Data", eyebrow: "Stored numbers per round" },
 };
 const ALL_KPIS = SCORECARD.flatMap(p => p.kpis);
@@ -104,7 +105,46 @@ function render() {
   if (view === "scorecard") renderScorecard(d);
   if (view === "sales") renderSales(round);
   if (view === "pricing") renderPricing(round);
+  if (view === "gaps") renderGaps();
   if (view === "data") renderTable();
+}
+
+/* ---------- gaps ---------- */
+let gaps = null;
+async function loadGaps() {
+  try { const res = await fetch("data/gaps.json", { cache: "no-store" }); if (res.ok) gaps = await res.json(); } catch (e) { /* opened from disk */ }
+}
+const num = (v, unit) => v == null ? "–" : unit === "M USD" ? Math.round(v).toLocaleString("en-US") : String(v);
+/* Δ% and its status: within 10% the wrong way is "watch", beyond it "off target". A zero forecast is judged on the value alone. */
+function gapCell(f, a, better) {
+  if (!f) {
+    const st = a ? "bad" : "good";
+    return { d: a ? `n/a (+${Math.round(a).toLocaleString("en-US")})` : "0%", st };
+  }
+  const d = (a - f) / f, worse = better === "higher" ? -d : d;
+  return { d: signed(d), st: worse <= 0 ? "good" : worse <= 0.1 ? "warn" : "bad" };
+}
+function renderGaps() {
+  if (!gaps) { $("#gaps-internal").innerHTML = `<tbody><tr><td class="empty">Loading gaps…</td></tr></tbody>`; loadGaps().then(() => gaps && render()); return; }
+  const head = first => `<thead><tr><th>${first}</th>${["R1", "R2", "R3"].map(r => `<th>${r} forecast</th><th>${r} actual</th><th>${r} Δ%</th>`).join("")}<th>Now</th></tr></thead>`;
+  const body = (rows, external) => `<tbody>${rows.map(g => {
+    const cells = g.rounds.map(([x, y], i) => {
+      const c = external ? gapCell(y, x, g.better) : gapCell(x, y, g.better);
+      const fc = external ? (i === 0 ? g.plan.split(" / ")[0] : g.plan.split(" / ")[i] || g.plan) : num(x, g.unit);
+      const ac = external ? `${num(x, g.unit)} <span class="muted">/ ${num(y, g.unit)}</span>` : num(y, g.unit);
+      return { html: `<td class="num">${fc}</td><td class="num"><b>${ac}</b></td><td class="num ${c.st === "good" ? "up" : c.st === "bad" ? "down" : ""}">${c.d}</td>`, st: c.st };
+    });
+    const now = cells[cells.length - 1].st;
+    return `<tr><td><b>${g.id}</b> ${g.name}<span class="cur">${g.unit}</span></td>${cells.map(c => c.html).join("")}<td><span class="status ${now}"><span class="ic"></span>${STATUS_TEXT[now]}</span></td></tr>`;
+  }).join("")}</tbody>`;
+  const score = rows => { const ok = rows.filter(g => { const [x, y] = g.rounds[g.rounds.length - 1]; return gapCell(rows === gaps.external ? y : x, rows === gaps.external ? x : y, g.better).st === "good"; }).length; return `<b>${ok}</b> / ${rows.length} on target now`; };
+  $("#gaps-internal").innerHTML = head("Indicator") + body(gaps.internal, false);
+  $("#gaps-external").innerHTML = head("Factor (ours / rivals)") + body(gaps.external, true);
+  $("#gaps-int-score").innerHTML = score(gaps.internal);
+  $("#gaps-ext-score").innerHTML = score(gaps.external);
+  $("#gaps-actions").innerHTML = `<thead><tr><th>Gap</th><th>Root cause</th><th>Corrective action, Round 4</th><th>Alert</th><th>Owner</th></tr></thead>
+    <tbody>${[...gaps.internal, ...gaps.external].map(g => `<tr><td><b>${g.id}</b> ${g.name}</td><td class="why">${g.cause}${g.rivals ? `<div class="muted">Rivals: ${g.rivals}</div>` : ""}</td><td class="why">${g.action}</td><td class="why">${g.alert}</td><td>${g.owner}</td></tr>`).join("")}</tbody>`;
+  $("#gaps-source").textContent = `${gaps.asOf}. ${gaps.source}`;
 }
 
 /* ---------- sales ---------- */

@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=12">
+  <link rel="stylesheet" href="assets/style.css?v=13">
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
@@ -27,6 +27,7 @@
         <a href="#scorecard" data-view="scorecard"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 4a6 6 0 1 1-6 6 6 6 0 0 1 6-6zm0 3a3 3 0 1 0 3 3 3 3 0 0 0-3-3z"/></svg><span>Balanced scorecard</span></a>
         <a href="#sales" data-view="sales"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8v5h2V3h-9v2h5l-6 6-4-4-7.5 7.5z"/></svg><span>Sales</span></a>
         <a href="#pricing" data-view="pricing"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.4 11.6l-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 .6 1.4l9 9a2 2 0 0 0 2.8 0l7-7a2 2 0 0 0 0-2.8zM6.5 8A1.5 1.5 0 1 1 8 6.5 1.5 1.5 0 0 1 6.5 8z"/></svg><span>Pricing</span></a>
+        <a href="#gaps" data-view="gaps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h2v16h16v2H3V3zm4 10h3v4H7v-4zm5-6h3v10h-3V7zm5 3h3v7h-3v-7z"/></svg><span>Gaps</span></a>
         <a href="#data" data-view="data"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v4H3V4zm0 6h18v4H3v-4zm0 6h18v4H3v-4z"/></svg><span>Data</span></a>
       </nav>
       <div class="side-foot">
@@ -152,6 +153,23 @@
         <p class="foot">How the suggestion works: each feature above the rivals' average is worth about 3.5% of price (practice-round winners). Unsold stock → cut 3%; sold out → raise up to 6%; short total supply → hold or edge up 3%; otherwise move halfway to the feature-adjusted market price. Always check the margin on the Logistics screen before entering a price.</p>
       </section>
 
+      <!-- GAPS -->
+      <section class="view" id="view-gaps" hidden>
+        <div class="panel">
+          <div class="panel-head"><div><h2>Internal gaps: forecast vs actual</h2><p class="muted">Δ% = (actual − forecast) / forecast. Forecasts from the team strategy note, section 3.4.</p></div><div class="pill-score" id="gaps-int-score"></div></div>
+          <div class="table-wrap"><table class="price-table" id="gaps-internal"></table></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><h2>External gaps: us vs rivals</h2><p class="muted">Δ% = (ours − rival average) / rival average, four rivals of Universe 5.</p></div><div class="pill-score" id="gaps-ext-score"></div></div>
+          <div class="table-wrap"><table class="price-table" id="gaps-external"></table></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><h2>Root causes, actions and alerts</h2><p class="muted">One line per gap: why it happened, what we change next round, and the alert that tells us it is back.</p></div></div>
+          <div class="table-wrap"><table class="price-table" id="gaps-actions"></table></div>
+        </div>
+        <p class="foot" id="gaps-source"></p>
+      </section>
+
       <!-- DATA -->
       <section class="view" id="view-data" hidden>
         <div class="panel table-panel">
@@ -200,10 +218,10 @@
     </form>
   </dialog>
 
-  <script src="assets/kpis.js?v=12"></script>
-  <script src="assets/parser.js?v=12"></script>
-  <script src="assets/charts.js?v=12"></script>
-  <script src="assets/demo.js?v=12"></script>
-  <script src="assets/app.js?v=12"></script>
+  <script src="assets/kpis.js?v=13"></script>
+  <script src="assets/parser.js?v=13"></script>
+  <script src="assets/charts.js?v=13"></script>
+  <script src="assets/demo.js?v=13"></script>
+  <script src="assets/app.js?v=13"></script>
 </body>
 </html>
