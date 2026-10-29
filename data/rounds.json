@@ -54,13 +54,13 @@
     "RedBull": {
      "tsr": 24.53
     },
-    "U5T3 - Blue": {
+    "Blue": {
      "tsr": -13.2
     },
-    "U5T4 - Orange": {
+    "Orange": {
      "tsr": -7.37
     },
-    "U5T5 - Great": {
+    "Great": {
      "tsr": -35.05
     }
    },
@@ -134,15 +134,15 @@
      "tsr": 27.49871921779139,
      "sharePrice": 69.18496895953038
     },
-    "U5T3 - Blue": {
+    "Blue": {
      "tsr": 16.792070231938826,
      "sharePrice": 60.368121375377946
     },
-    "U5T4 - Orange": {
+    "Orange": {
      "tsr": -2.439295088936355,
      "sharePrice": 42.55352430639827
     },
-    "U5T5 - Great": {
+    "Great": {
      "tsr": -29.567179855330373,
      "sharePrice": 22.17868696392773
     }
@@ -150,16 +150,16 @@
    "rivalPrices": {
     "USA": {
      "RedBull": 28300,
-     "U5T3 - Blue": 28000,
-     "U5T5 - Great": 35000
+     "Blue": 28000,
+     "Great": 35000
     },
     "China": {
      "RedBull": 143000,
-     "U5T3 - Blue": 220000
+     "Blue": 220000
     },
     "Europe": {
      "RedBull": 25000,
-     "U5T3 - Blue": 27000
+     "Blue": 27000
     }
    },
    "market": {
@@ -179,21 +179,21 @@
        "sales": 586.054,
        "demand": 586.054
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 18500,
        "features": 3,
        "focus": "Balanced",
        "sales": 483.081,
        "demand": 483.081
       },
-      "U5T4 - Orange": {
+      "Orange": {
        "price": 18500,
        "features": 3,
        "focus": "Brand",
        "sales": 475.824,
        "demand": 475.824
       },
-      "U5T5 - Great": {
+      "Great": {
        "price": 19500,
        "features": 3,
        "focus": "Balanced",
@@ -216,14 +216,14 @@
        "sales": 356,
        "demand": 424.71
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 28000,
        "features": 2,
        "focus": "Sustainability",
        "sales": 344.761,
        "demand": 344.761
       },
-      "U5T5 - Great": {
+      "Great": {
        "price": 35000,
        "features": 1,
        "focus": "Balanced",
@@ -248,21 +248,21 @@
        "sales": 371.219,
        "demand": 371.219
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 125000,
        "features": 4,
        "focus": "Features",
        "sales": 266.099,
        "demand": 266.099
       },
-      "U5T4 - Orange": {
+      "Orange": {
        "price": 125000,
        "features": 4,
        "focus": "Features",
        "sales": 268.22,
        "demand": 268.22
       },
-      "U5T5 - Great": {
+      "Great": {
        "price": 125000,
        "features": 6,
        "focus": "Features",
@@ -285,7 +285,7 @@
        "sales": 352.502,
        "demand": 352.502
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 220000,
        "features": 2,
        "focus": "Sustainability",
@@ -294,7 +294,7 @@
       }
      },
      "Electric": {
-      "U5T5 - Great": {
+      "Great": {
        "price": 210000,
        "features": 1,
        "focus": "Brand",
@@ -319,21 +319,21 @@
        "sales": 384.602,
        "demand": 747.587
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 20000,
        "features": 2,
        "focus": "Sustainability",
        "sales": 667.737,
        "demand": 667.737
       },
-      "U5T4 - Orange": {
+      "Orange": {
        "price": 22000,
        "features": 2,
        "focus": "Sustainability",
        "sales": 533.505,
        "demand": 533.505
       },
-      "U5T5 - Great": {
+      "Great": {
        "price": 20000,
        "features": 2,
        "focus": "Sustainability",
@@ -356,7 +356,7 @@
        "sales": 267.498,
        "demand": 498.698
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 27000,
        "features": 2,
        "focus": "Sustainability",
@@ -365,7 +365,7 @@
       }
      },
      "Electric": {
-      "U5T5 - Great": {
+      "Great": {
        "price": 28000,
        "features": 1,
        "focus": "Sustainability",
@@ -442,15 +442,15 @@
      "tsr": 43.26,
      "sharePrice": 62.82
     },
-    "U5T3 - Blue": {
+    "Blue": {
      "tsr": 56.41,
      "sharePrice": 68.67
     },
-    "U5T4 - Orange": {
+    "Orange": {
      "tsr": 13.89,
      "sharePrice": 49.32
     },
-    "U5T5 - Great": {
+    "Great": {
      "tsr": 17.07,
      "sharePrice": 52.34
     }
@@ -458,18 +458,18 @@
    "rivalPrices": {
     "USA": {
      "RedBull": 25500,
-     "U5T3 - Blue": 27000,
-     "U5T4 - Orange": 26292
+     "Blue": 27000,
+     "Orange": 26292
     },
     "China": {
      "RedBull": 150000,
-     "U5T3 - Blue": 160000,
-     "U5T4 - Orange": 204000
+     "Blue": 160000,
+     "Orange": 204000
     },
     "Europe": {
      "RedBull": 27000,
-     "U5T3 - Blue": 25500,
-     "U5T4 - Orange": 24500
+     "Blue": 25500,
+     "Orange": 24500
     }
    },
    "market": {
@@ -489,21 +489,21 @@
        "sales": 554,
        "demand": 554
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 18800,
        "features": 3,
        "focus": "Brand",
        "sales": 520,
        "demand": 520
       },
-      "U5T4 - Orange": {
+      "Orange": {
        "price": 19000,
        "features": 3,
        "focus": "Brand",
        "sales": 460,
        "demand": 460
       },
-      "U5T5 - Great": {
+      "Great": {
        "price": 20350,
        "features": 3,
        "focus": "Brand",
@@ -526,14 +526,14 @@
        "sales": 350,
        "demand": 391
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 27000,
        "features": 1,
        "focus": "Brand",
        "sales": 278,
        "demand": 286
       },
-      "U5T4 - Orange": {
+      "Orange": {
        "price": 26292,
        "features": 1,
        "focus": "Sustainability",
@@ -558,21 +558,21 @@
        "sales": 363,
        "demand": 363
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 123000,
        "features": 4,
        "focus": "Features",
        "sales": 290,
        "demand": 290
       },
-      "U5T4 - Orange": {
+      "Orange": {
        "price": 125000,
        "features": 5,
        "focus": "Features",
        "sales": 321,
        "demand": 321
       },
-      "U5T5 - Great": {
+      "Great": {
        "price": 125000,
        "features": 6,
        "focus": "Features",
@@ -595,14 +595,14 @@
        "sales": 326,
        "demand": 326
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 160000,
        "features": 1,
        "focus": "Low price",
        "sales": 0,
        "demand": 233
       },
-      "U5T4 - Orange": {
+      "Orange": {
        "price": 204000,
        "features": 1,
        "focus": "Balanced",
@@ -627,21 +627,21 @@
        "sales": 712,
        "demand": 712
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 20800,
        "features": 2,
        "focus": "Sustainability",
        "sales": 665,
        "demand": 665
       },
-      "U5T4 - Orange": {
+      "Orange": {
        "price": 21000,
        "features": 2,
        "focus": "Sustainability",
        "sales": 556,
        "demand": 556
       },
-      "U5T5 - Great": {
+      "Great": {
        "price": 22000,
        "features": 2,
        "focus": "Sustainability",
@@ -664,14 +664,14 @@
        "sales": 74,
        "demand": 444
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 25500,
        "features": 1,
        "focus": "Sustainability",
        "sales": 437,
        "demand": 437
       },
-      "U5T4 - Orange": {
+      "Orange": {
        "price": 24500,
        "features": 1,
        "focus": "Sustainability",
@@ -748,15 +748,15 @@
      "tsr": 44.3,
      "sharePrice": 89.51
     },
-    "U5T3 - Blue": {
+    "Blue": {
      "tsr": 51.29,
      "sharePrice": 99.02
     },
-    "U5T4 - Orange": {
+    "Orange": {
      "tsr": 29.77,
      "sharePrice": 73.54
     },
-    "U5T5 - Great": {
+    "Great": {
      "tsr": 29.54,
      "sharePrice": 74.41
     }
@@ -764,21 +764,21 @@
    "rivalPrices": {
     "USA": {
      "RedBull": 27500,
-     "U5T3 - Blue": 27000,
-     "U5T4 - Orange": 26500,
-     "U5T5 - Great": 33000
+     "Blue": 27000,
+     "Orange": 26500,
+     "Great": 33000
     },
     "China": {
      "RedBull": 155000,
-     "U5T3 - Blue": 165000,
-     "U5T4 - Orange": 245000,
-     "U5T5 - Great": 163000
+     "Blue": 165000,
+     "Orange": 245000,
+     "Great": 163000
     },
     "Europe": {
      "RedBull": 30000,
-     "U5T3 - Blue": 26000,
-     "U5T4 - Orange": 27000,
-     "U5T5 - Great": 30000
+     "Blue": 26000,
+     "Orange": 27000,
+     "Great": 30000
     }
    },
    "market": {
@@ -798,21 +798,21 @@
        "sales": 441,
        "demand": 441
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 20000,
        "features": 4,
        "focus": "Brand",
        "sales": 492,
        "demand": 492
       },
-      "U5T4 - Orange": {
+      "Orange": {
        "price": 22000,
        "features": 3,
        "focus": "Brand",
        "sales": 323,
        "demand": 323
       },
-      "U5T5 - Great": {
+      "Great": {
        "price": 20350,
        "features": 3,
        "focus": "Brand",
@@ -835,21 +835,21 @@
        "sales": 326,
        "demand": 326
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 27000,
        "features": 2,
        "focus": "Brand",
        "sales": 374,
        "demand": 374
       },
-      "U5T4 - Orange": {
+      "Orange": {
        "price": 26500,
        "features": 2,
        "focus": "Sustainability",
        "sales": 213,
        "demand": 354
       },
-      "U5T5 - Great": {
+      "Great": {
        "price": 33000,
        "features": 1,
        "focus": "Brand",
@@ -874,21 +874,21 @@
        "sales": 360,
        "demand": 360
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 124800,
        "features": 5,
        "focus": "Features",
        "sales": 269,
        "demand": 269
       },
-      "U5T4 - Orange": {
+      "Orange": {
        "price": 128000,
        "features": 5,
        "focus": "Low price",
        "sales": 255,
        "demand": 255
       },
-      "U5T5 - Great": {
+      "Great": {
        "price": 130000,
        "features": 6,
        "focus": "Features",
@@ -911,21 +911,21 @@
        "sales": 413,
        "demand": 413
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 165000,
        "features": 3,
        "focus": "Features",
        "sales": 188,
        "demand": 368
       },
-      "U5T4 - Orange": {
+      "Orange": {
        "price": 245000,
        "features": 3,
        "focus": "Features",
        "sales": 104,
        "demand": 104
       },
-      "U5T5 - Great": {
+      "Great": {
        "price": 163000,
        "features": 1,
        "focus": "Features",
@@ -950,21 +950,21 @@
        "sales": 527,
        "demand": 527
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 21300,
        "features": 2,
        "focus": "Sustainability",
        "sales": 561,
        "demand": 561
       },
-      "U5T4 - Orange": {
+      "Orange": {
        "price": 18800,
        "features": 2,
        "focus": "Sustainability",
        "sales": 595,
        "demand": 595
       },
-      "U5T5 - Great": {
+      "Great": {
        "price": 23000,
        "features": 2,
        "focus": "Sustainability",
@@ -987,21 +987,21 @@
        "sales": 306,
        "demand": 306
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 26000,
        "features": 2,
        "focus": "Sustainability",
        "sales": 478,
        "demand": 478
       },
-      "U5T4 - Orange": {
+      "Orange": {
        "price": 27000,
        "features": 2,
        "focus": "Sustainability",
        "sales": 384,
        "demand": 384
       },
-      "U5T5 - Great": {
+      "Great": {
        "price": 30000,
        "features": 1,
        "focus": "Sustainability",
@@ -1079,15 +1079,15 @@
      "tsr": 41.46,
      "sharePrice": 119.05
     },
-    "U5T3 - Blue": {
+    "Blue": {
      "tsr": 43.7,
      "sharePrice": 126.42
     },
-    "U5T4 - Orange": {
+    "Orange": {
      "tsr": 27.5,
      "sharePrice": 86.71
     },
-    "U5T5 - Great": {
+    "Great": {
      "tsr": 30.13,
      "sharePrice": 95.39
     }
@@ -1095,21 +1095,21 @@
    "rivalPrices": {
     "USA": {
      "RedBull": 28000,
-     "U5T3 - Blue": 28000,
-     "U5T4 - Orange": 27500,
-     "U5T5 - Great": 30000
+     "Blue": 28000,
+     "Orange": 27500,
+     "Great": 30000
     },
     "China": {
      "RedBull": 190000,
-     "U5T3 - Blue": 175000,
-     "U5T4 - Orange": 212000,
-     "U5T5 - Great": 165500
+     "Blue": 175000,
+     "Orange": 212000,
+     "Great": 165500
     },
     "Europe": {
      "RedBull": 30500,
-     "U5T3 - Blue": 28500,
-     "U5T4 - Orange": 26999,
-     "U5T5 - Great": 31500
+     "Blue": 28500,
+     "Orange": 26999,
+     "Great": 31500
     }
    },
    "market": {
@@ -1129,21 +1129,21 @@
        "sales": 417.281,
        "demand": 417.281
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 21000,
        "features": 4,
        "focus": "Brand",
        "sales": 454.375,
        "demand": 454.375
       },
-      "U5T4 - Orange": {
+      "Orange": {
        "price": 20999,
        "features": 3,
        "focus": "Brand",
        "sales": 325.539,
        "demand": 325.539
       },
-      "U5T5 - Great": {
+      "Great": {
        "price": 21500,
        "features": 3,
        "focus": "Brand",
@@ -1166,21 +1166,21 @@
        "sales": 428.616,
        "demand": 428.616
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 28000,
        "features": 3,
        "focus": "Brand",
        "sales": 424.771,
        "demand": 424.771
       },
-      "U5T4 - Orange": {
+      "Orange": {
        "price": 27500,
        "features": 3,
        "focus": "Brand",
        "sales": 380.713,
        "demand": 380.713
       },
-      "U5T5 - Great": {
+      "Great": {
        "price": 30000,
        "features": 3,
        "focus": "Brand",
@@ -1205,21 +1205,21 @@
        "sales": 354.793,
        "demand": 354.793
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 126000,
        "features": 6,
        "focus": "Low price",
        "sales": 348.231,
        "demand": 348.231
       },
-      "U5T4 - Orange": {
+      "Orange": {
        "price": 124000,
        "features": 5,
        "focus": "Low price",
        "sales": 296.074,
        "demand": 296.074
       },
-      "U5T5 - Great": {
+      "Great": {
        "price": 131500,
        "features": 6,
        "focus": "Features",
@@ -1242,21 +1242,21 @@
        "sales": 267.755,
        "demand": 267.755
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 175000,
        "features": 5,
        "focus": "Features",
        "sales": 400.757,
        "demand": 400.757
       },
-      "U5T4 - Orange": {
+      "Orange": {
        "price": 212000,
        "features": 4,
        "focus": "Features",
        "sales": 188.864,
        "demand": 188.864
       },
-      "U5T5 - Great": {
+      "Great": {
        "price": 165500,
        "features": 4,
        "focus": "Features",
@@ -1281,21 +1281,21 @@
        "sales": 504.897,
        "demand": 504.897
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 22300,
        "features": 3,
        "focus": "Sustainability",
        "sales": 575.511,
        "demand": 585.512
       },
-      "U5T4 - Orange": {
+      "Orange": {
        "price": 20000,
        "features": 2,
        "focus": "Sustainability",
        "sales": 512.156,
        "demand": 512.156
       },
-      "U5T5 - Great": {
+      "Great": {
        "price": 23500,
        "features": 3,
        "focus": "Sustainability",
@@ -1318,26 +1318,358 @@
        "sales": 356.837,
        "demand": 356.837
       },
-      "U5T3 - Blue": {
+      "Blue": {
        "price": 28500,
        "features": 3,
        "focus": "Sustainability",
        "sales": 485.883,
        "demand": 485.883
       },
-      "U5T4 - Orange": {
+      "Orange": {
        "price": 26999,
        "features": 2,
        "focus": "Sustainability",
        "sales": 385.091,
        "demand": 385.091
       },
-      "U5T5 - Great": {
+      "Great": {
        "price": 31500,
        "features": 3,
        "focus": "Sustainability",
        "sales": 448.33,
        "demand": 527.056
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "R4",
+   "label": "Round 4",
+   "practice": false,
+   "team": "Green Day",
+   "kpi": {
+    "tsr": 33.545,
+    "sharePrice": 134.351,
+    "eps": 9.16,
+    "ebitdaPct": 22.886,
+    "roce": 62.578,
+    "equityRatio": 65.158,
+    "esg": 2.913,
+    "shares": 1417000,
+    "revenue": 75577812,
+    "profit": 12980336,
+    "cash": 11639714,
+    "ltDebt": 6900000,
+    "stDebt": 741818,
+    "inventoryValue": 2581116,
+    "dividends": 6046000,
+    "rdEfficiency": 0.997,
+    "turnover": 2.42,
+    "shareUSA": 20.757,
+    "price_USA_Combustion": 20700,
+    "feat_USA_Combustion": 4,
+    "sold_USA_Combustion": 470.396,
+    "dem_USA_Combustion": 470.396,
+    "price_USA_Hybrid": 28200,
+    "feat_USA_Hybrid": 4,
+    "sold_USA_Hybrid": 393.546,
+    "dem_USA_Hybrid": 393.546,
+    "shareChina": 23.831,
+    "price_China_Combustion": 128200,
+    "feat_China_Combustion": 6,
+    "sold_China_Combustion": 355.911,
+    "dem_China_Combustion": 355.911,
+    "price_China_Hybrid": 176500,
+    "feat_China_Hybrid": 5,
+    "sold_China_Hybrid": 483.614,
+    "dem_China_Hybrid": 483.614,
+    "shareEurope": 20.603,
+    "price_Europe_Combustion": 22500,
+    "feat_Europe_Combustion": 3,
+    "sold_Europe_Combustion": 540.447,
+    "dem_Europe_Combustion": 540.447,
+    "price_Europe_Hybrid": 29900,
+    "feat_Europe_Hybrid": 4,
+    "sold_Europe_Hybrid": 483.649,
+    "dem_Europe_Hybrid": 483.649,
+    "capUSA": 0,
+    "capChina": 90,
+    "invUnits": 189.501,
+    "inv_Combustion": 120.068,
+    "inv_Hybrid": 69.433,
+    "inv_Electric": 0,
+    "inv_Hydrogen": 0
+   },
+   "teams": {
+    "Green Day": {
+     "tsr": 33.54,
+     "sharePrice": 134.35
+    },
+    "RedBull": {
+     "tsr": 35.62,
+     "sharePrice": 137.64
+    },
+    "Blue": {
+     "tsr": 36.04,
+     "sharePrice": 143.68
+    },
+    "Orange": {
+     "tsr": 24.45,
+     "sharePrice": 96.92
+    },
+    "Great": {
+     "tsr": 23.37,
+     "sharePrice": 95.24
+    }
+   },
+   "rivalPrices": {
+    "USA": {
+     "RedBull": 30000,
+     "Blue": 29000,
+     "Orange": 28000,
+     "Great": 30000
+    },
+    "China": {
+     "RedBull": 191000,
+     "Blue": 190000,
+     "Orange": 180000
+    },
+    "Europe": {
+     "RedBull": 32000,
+     "Blue": 30000,
+     "Orange": 27999,
+     "Great": 32000
+    }
+   },
+   "market": {
+    "USA": {
+     "Combustion": {
+      "Green Day": {
+       "price": 20700,
+       "features": 4,
+       "focus": "Brand",
+       "sales": 470.396,
+       "demand": 470.396
+      },
+      "RedBull": {
+       "price": 24000,
+       "features": 4,
+       "focus": "Balanced",
+       "sales": 411.199,
+       "demand": 411.199
+      },
+      "Blue": {
+       "price": 22000,
+       "features": 5,
+       "focus": "Brand",
+       "sales": 466.405,
+       "demand": 466.405
+      },
+      "Orange": {
+       "price": 21300,
+       "features": 5,
+       "focus": "Brand",
+       "sales": 428.868,
+       "demand": 428.868
+      },
+      "Great": {
+       "price": 21500,
+       "features": 3,
+       "focus": "Brand",
+       "sales": 476.115,
+       "demand": 476.115
+      }
+     },
+     "Hybrid": {
+      "Green Day": {
+       "price": 28200,
+       "features": 4,
+       "focus": "Brand",
+       "sales": 393.546,
+       "demand": 393.546
+      },
+      "RedBull": {
+       "price": 30000,
+       "features": 3,
+       "focus": "Balanced",
+       "sales": 407.023,
+       "demand": 407.023
+      },
+      "Blue": {
+       "price": 29000,
+       "features": 4,
+       "focus": "Brand",
+       "sales": 387.41,
+       "demand": 387.41
+      },
+      "Orange": {
+       "price": 28000,
+       "features": 5,
+       "focus": "Brand",
+       "sales": 427.689,
+       "demand": 427.689
+      },
+      "Great": {
+       "price": 30000,
+       "features": 2,
+       "focus": "Brand",
+       "sales": 293.601,
+       "demand": 293.601
+      }
+     }
+    },
+    "China": {
+     "Combustion": {
+      "Green Day": {
+       "price": 128200,
+       "features": 6,
+       "focus": "Features",
+       "sales": 355.911,
+       "demand": 355.911
+      },
+      "RedBull": {
+       "price": 138000,
+       "features": 7,
+       "focus": "Features",
+       "sales": 351.245,
+       "demand": 351.245
+      },
+      "Blue": {
+       "price": 130000,
+       "features": 7,
+       "focus": "Features",
+       "sales": 374.418,
+       "demand": 374.418
+      },
+      "Orange": {
+       "price": 125200,
+       "features": 7,
+       "focus": "Features",
+       "sales": 366.386,
+       "demand": 366.386
+      },
+      "Great": {
+       "price": 131500,
+       "features": 6,
+       "focus": "Features",
+       "sales": 409.915,
+       "demand": 409.915
+      }
+     },
+     "Hybrid": {
+      "Green Day": {
+       "price": 176500,
+       "features": 5,
+       "focus": "Features",
+       "sales": 483.614,
+       "demand": 483.614
+      },
+      "RedBull": {
+       "price": 191000,
+       "features": 3,
+       "focus": "Features",
+       "sales": 284.218,
+       "demand": 284.218
+      },
+      "Blue": {
+       "price": 190000,
+       "features": 6,
+       "focus": "Features",
+       "sales": 428.51,
+       "demand": 428.51
+      },
+      "Orange": {
+       "price": 180000,
+       "features": 5,
+       "focus": "Features",
+       "sales": 407.161,
+       "demand": 407.161
+      }
+     },
+     "Electric": {
+      "Great": {
+       "price": 335000,
+       "features": 3,
+       "focus": "Features",
+       "sales": 61.432,
+       "demand": 61.432
+      }
+     }
+    },
+    "Europe": {
+     "Combustion": {
+      "Green Day": {
+       "price": 22500,
+       "features": 3,
+       "focus": "Balanced",
+       "sales": 540.447,
+       "demand": 540.447
+      },
+      "RedBull": {
+       "price": 28000,
+       "features": 3,
+       "focus": "Sustainability",
+       "sales": 452.333,
+       "demand": 452.333
+      },
+      "Blue": {
+       "price": 23500,
+       "features": 3,
+       "focus": "Sustainability",
+       "sales": 497.341,
+       "demand": 497.341
+      },
+      "Orange": {
+       "price": 20500,
+       "features": 3,
+       "focus": "Sustainability",
+       "sales": 508.421,
+       "demand": 508.421
+      },
+      "Great": {
+       "price": 24500,
+       "features": 4,
+       "focus": "Sustainability",
+       "sales": 691.534,
+       "demand": 691.534
+      }
+     },
+     "Hybrid": {
+      "Green Day": {
+       "price": 29900,
+       "features": 4,
+       "focus": "Sustainability",
+       "sales": 483.649,
+       "demand": 483.649
+      },
+      "RedBull": {
+       "price": 32000,
+       "features": 1,
+       "focus": "Sustainability",
+       "sales": 352.286,
+       "demand": 352.286
+      },
+      "Blue": {
+       "price": 30000,
+       "features": 4,
+       "focus": "Sustainability",
+       "sales": 479.388,
+       "demand": 479.388
+      },
+      "Orange": {
+       "price": 27999,
+       "features": 3,
+       "focus": "Sustainability",
+       "sales": 415.436,
+       "demand": 415.436
+      },
+      "Great": {
+       "price": 32000,
+       "features": 3,
+       "focus": "Sustainability",
+       "sales": 549.779,
+       "demand": 549.779
       }
      }
     }

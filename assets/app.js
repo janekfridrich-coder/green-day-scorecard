@@ -38,6 +38,8 @@ async function load() {
     const ids = new Set(shared.rounds.map(r => r.id));
     state = { team: shared.team || "Green Day", rounds: [...shared.rounds, ...((local && local.rounds) || []).filter(r => !ids.has(r.id))] };
   } else if (local) state = local;
+  state.team = teamName(state.team);
+  state.rounds.forEach(normalizeRound);
   sortRounds();
 }
 function sortRounds() {
@@ -479,7 +481,7 @@ function openImport() {
 }
 async function handleFiles(files) {
   if (typeof XLSX === "undefined") { $("#imp-result").innerHTML = `<p class="imp-note err">The Excel reader did not load. Check the internet connection and reload.</p>`; return; }
-  const team = $("#imp-team").value.trim() || "Green Day";
+  const team = teamName($("#imp-team").value) || "Green Day";
   let facts = [];
   for (const f of files) {
     try { facts = facts.concat(readWorkbook(await f.arrayBuffer(), team)); }

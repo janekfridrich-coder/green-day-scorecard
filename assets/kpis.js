@@ -2,6 +2,23 @@
    Targets follow "Green Day: Rules to Win" (practice-round analysis, 27 Oct 2026). */
 
 const AREAS = ["USA", "China", "Europe"];
+/* Teams rename themselves between rounds ("U5T3 - Blue", "T3 Blue Baby Sharks"): one short name per team,
+   so rounds line up and the import finds us whatever prefix Cesim prints. */
+const TEAM_ALIASES = [[/green\s*day/i, "Green Day"], [/red\s*bull/i, "RedBull"], [/blue/i, "Blue"], [/orange/i, "Orange"], [/gre(y|at)\b/i, "Great"]];
+function teamName(raw) {
+  const s = String(raw || "").trim().replace(/^(U\d+\s*)?T\d+\s*[-–]?\s*/i, "").trim();
+  const hit = TEAM_ALIASES.find(([re]) => re.test(s));
+  return hit ? hit[1] : s;
+}
+/* Rename the team keys inside a stored round to their short names. */
+function normalizeRound(r) {
+  const re = o => o && Object.fromEntries(Object.entries(o).map(([k, v]) => [teamName(k), v]));
+  r.team = teamName(r.team);
+  r.teams = re(r.teams) || {};
+  r.rivalPrices = Object.fromEntries(Object.entries(r.rivalPrices || {}).map(([a, o]) => [a, re(o)]));
+  for (const a of Object.keys(r.market || {})) for (const t of Object.keys(r.market[a])) r.market[a][t] = re(r.market[a][t]);
+  return r;
+}
 const TECHS = ["Combustion", "Hybrid", "Electric", "Hydrogen"];
 
 /* Raw fields stored per round. Money is in k USD, as Cesim reports it. */
@@ -250,6 +267,7 @@ const FX = {
   P1: { USA: 1, China: 0.145, Europe: 1.175 }, R1: { USA: 1, China: 0.145, Europe: 1.175 },
   P2: { USA: 1, China: 0.145, Europe: 1.2338 }, R2: { USA: 1, China: 0.145, Europe: 1.2338 },
   R3: { USA: 1, China: 0.145, Europe: 1.2584 },
+  R4: { USA: 1, China: 0.1493, Europe: 1.2962 },
 };
 const fxFor = id => FX[id] || FX.default;
 

@@ -31,13 +31,13 @@ function parseNumber(v) {
 function sheetFacts(name, rows, team) {
   const facts = [];
   let cols = null, area = normArea(name), tech = null, title = name, section = name;
-  const teamLc = team.trim().toLowerCase();
+  const us = teamName(team);
   for (const row of rows) {
     const cells = row.map(c => (c == null ? "" : c));
-    const idx = cells.findIndex((c, i) => i > 0 && String(c).trim().toLowerCase() === teamLc);
+    const idx = cells.findIndex((c, i) => i > 0 && String(c).trim() && teamName(c) === us);
     if (idx > 0) {
       cols = {};
-      cells.forEach((c, i) => { if (i > 0 && String(c).trim() && parseNumber(c) == null) cols[i] = String(c).trim(); });
+      cells.forEach((c, i) => { if (i > 0 && String(c).trim() && parseNumber(c) == null) cols[i] = teamName(c); });
       continue;
     }
     const label = String(cells[0] || "").trim();
@@ -99,6 +99,7 @@ const RULES = [
 ];
 
 function extract(facts, team) {
+  team = teamName(team);
   const kpi = {}, teams = {}, rivalPrices = {}, found = [];
   const take = (key, f) => {
     if (kpi[key] != null || f.values[team] == null) return false;
