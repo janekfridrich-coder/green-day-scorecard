@@ -1674,6 +1674,668 @@
      }
     }
    }
+  },
+  {
+   "id": "R5",
+   "label": "Round 5",
+   "practice": false,
+   "team": "Green Day",
+   "kpi": {
+    "tsr": 30.664,
+    "sharePrice": 156.455,
+    "eps": 9.187,
+    "ebitdaPct": 23.629,
+    "roce": 61.218,
+    "equityRatio": 62.045,
+    "esg": 2.874,
+    "shares": 1375000,
+    "revenue": 72220991,
+    "profit": 12631889,
+    "cash": 9925837,
+    "ltDebt": 6900000,
+    "stDebt": 2043391,
+    "inventoryValue": 5853826,
+    "dividends": 7250000,
+    "rdEfficiency": 1.033,
+    "turnover": 0.94,
+    "shareUSA": 18.427,
+    "price_USA_Combustion": 21200,
+    "feat_USA_Combustion": 4,
+    "sold_USA_Combustion": 404.225,
+    "dem_USA_Combustion": 404.225,
+    "price_USA_Hybrid": 28200,
+    "feat_USA_Hybrid": 4,
+    "sold_USA_Hybrid": 371.49,
+    "dem_USA_Hybrid": 371.49,
+    "shareChina": 23.174,
+    "price_China_Combustion": 130000,
+    "feat_China_Combustion": 6,
+    "sold_China_Combustion": 313.867,
+    "dem_China_Combustion": 313.867,
+    "price_China_Hybrid": 181000,
+    "feat_China_Hybrid": 6,
+    "sold_China_Hybrid": 569.059,
+    "dem_China_Hybrid": 569.059,
+    "shareEurope": 21.044,
+    "price_Europe_Combustion": 22800,
+    "feat_Europe_Combustion": 3,
+    "sold_Europe_Combustion": 538.674,
+    "dem_Europe_Combustion": 538.674,
+    "price_Europe_Hybrid": 30400,
+    "feat_Europe_Hybrid": 4,
+    "sold_Europe_Hybrid": 427.991,
+    "dem_Europe_Hybrid": 427.991,
+    "capUSA": 75,
+    "capChina": 85,
+    "invUnits": 430.694,
+    "inv_Combustion": 195.801,
+    "inv_Hybrid": 234.893,
+    "inv_Electric": 0,
+    "inv_Hydrogen": 0
+   },
+   "teams": {
+    "Green Day": {
+     "tsr": 30.66,
+     "sharePrice": 156.46
+    },
+    "RedBull": {
+     "tsr": 32.36,
+     "sharePrice": 161.03
+    },
+    "Blue": {
+     "tsr": 29.03,
+     "sharePrice": 146.84
+    },
+    "Orange": {
+     "tsr": 25.52,
+     "sharePrice": 123.56
+    },
+    "Great": {
+     "tsr": 23.81,
+     "sharePrice": 121.0
+    }
+   },
+   "rivalPrices": {
+    "USA": {
+     "RedBull": 30500,
+     "Blue": 30500,
+     "Orange": 28000,
+     "Great": 35000
+    },
+    "China": {
+     "Blue": 195000,
+     "Orange": 175000
+    },
+    "Europe": {
+     "RedBull": 32500,
+     "Blue": 31500,
+     "Orange": 27999,
+     "Great": 32000
+    }
+   },
+   "market": {
+    "USA": {
+     "Combustion": {
+      "Green Day": {
+       "price": 21200,
+       "features": 4,
+       "focus": "Brand",
+       "sales": 404.225,
+       "demand": 404.225
+      },
+      "RedBull": {
+       "price": 23500,
+       "features": 5,
+       "focus": "Balanced",
+       "sales": 463.199,
+       "demand": 463.199
+      },
+      "Blue": {
+       "price": 24000,
+       "features": 6,
+       "focus": "Brand",
+       "sales": 403.707,
+       "demand": 403.707
+      },
+      "Orange": {
+       "price": 21300,
+       "features": 6,
+       "focus": "Brand",
+       "sales": 559.389,
+       "demand": 559.389
+      },
+      "Great": {
+       "price": 21500,
+       "features": 3,
+       "focus": "Brand",
+       "sales": 446.575,
+       "demand": 446.575
+      }
+     },
+     "Hybrid": {
+      "Green Day": {
+       "price": 28200,
+       "features": 4,
+       "focus": "Brand",
+       "sales": 371.49,
+       "demand": 371.49
+      },
+      "RedBull": {
+       "price": 30500,
+       "features": 3,
+       "focus": "Balanced",
+       "sales": 387.549,
+       "demand": 387.549
+      },
+      "Blue": {
+       "price": 30500,
+       "features": 5,
+       "focus": "Brand",
+       "sales": 388.616,
+       "demand": 388.616
+      },
+      "Orange": {
+       "price": 28000,
+       "features": 6,
+       "focus": "Brand",
+       "sales": 447.298,
+       "demand": 559.136
+      },
+      "Great": {
+       "price": 35000,
+       "features": 5,
+       "focus": "Brand",
+       "sales": 337.567,
+       "demand": 337.567
+      }
+     }
+    },
+    "China": {
+     "Combustion": {
+      "Green Day": {
+       "price": 130000,
+       "features": 6,
+       "focus": "Features",
+       "sales": 313.867,
+       "demand": 313.867
+      },
+      "RedBull": {
+       "price": 138500,
+       "features": 7,
+       "focus": "Features",
+       "sales": 336.637,
+       "demand": 336.637
+      },
+      "Blue": {
+       "price": 133000,
+       "features": 7,
+       "focus": "Features",
+       "sales": 335.025,
+       "demand": 335.025
+      },
+      "Orange": {
+       "price": 126000,
+       "features": 8,
+       "focus": "Features",
+       "sales": 454.315,
+       "demand": 454.315
+      },
+      "Great": {
+       "price": 131500,
+       "features": 6,
+       "focus": "Features",
+       "sales": 376.441,
+       "demand": 376.441
+      }
+     },
+     "Hybrid": {
+      "Green Day": {
+       "price": 181000,
+       "features": 6,
+       "focus": "Features",
+       "sales": 569.059,
+       "demand": 569.059
+      },
+      "Blue": {
+       "price": 195000,
+       "features": 6,
+       "focus": "Features",
+       "sales": 430.608,
+       "demand": 430.608
+      },
+      "Orange": {
+       "price": 175000,
+       "features": 6,
+       "focus": "Features",
+       "sales": 649.694,
+       "demand": 649.694
+      }
+     },
+     "Electric": {
+      "RedBull": {
+       "price": 230000,
+       "features": 1,
+       "focus": "Low price",
+       "sales": 180.154,
+       "demand": 180.154
+      },
+      "Great": {
+       "price": 375000,
+       "features": 4,
+       "focus": "Features",
+       "sales": 164.265,
+       "demand": 164.265
+      }
+     }
+    },
+    "Europe": {
+     "Combustion": {
+      "Green Day": {
+       "price": 22800,
+       "features": 3,
+       "focus": "Balanced",
+       "sales": 538.674,
+       "demand": 538.674
+      },
+      "RedBull": {
+       "price": 28500,
+       "features": 3,
+       "focus": "Sustainability",
+       "sales": 430.954,
+       "demand": 471.126
+      },
+      "Orange": {
+       "price": 20500,
+       "features": 2,
+       "focus": "Sustainability",
+       "sales": 592.462,
+       "demand": 621.046
+      },
+      "Great": {
+       "price": 24500,
+       "features": 4,
+       "focus": "Sustainability",
+       "sales": 697.96,
+       "demand": 697.96
+      }
+     },
+     "Hybrid": {
+      "Green Day": {
+       "price": 30400,
+       "features": 4,
+       "focus": "Sustainability",
+       "sales": 427.991,
+       "demand": 427.991
+      },
+      "RedBull": {
+       "price": 32500,
+       "features": 1,
+       "focus": "Sustainability",
+       "sales": 346.704,
+       "demand": 346.704
+      },
+      "Blue": {
+       "price": 31500,
+       "features": 4,
+       "focus": "Sustainability",
+       "sales": 447.625,
+       "demand": 447.625
+      },
+      "Orange": {
+       "price": 27999,
+       "features": 2,
+       "focus": "Sustainability",
+       "sales": 446.055,
+       "demand": 446.055
+      },
+      "Great": {
+       "price": 32000,
+       "features": 3,
+       "focus": "Sustainability",
+       "sales": 527.762,
+       "demand": 527.762
+      }
+     },
+     "Electric": {
+      "Blue": {
+       "price": 39000,
+       "features": 2,
+       "focus": "Sustainability",
+       "sales": 137.255,
+       "demand": 137.255
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "R6",
+   "label": "Round 6",
+   "practice": false,
+   "team": "Green Day",
+   "kpi": {
+    "tsr": 29.934,
+    "sharePrice": 192.007,
+    "eps": 13.039,
+    "ebitdaPct": 29.808,
+    "roce": 80.634,
+    "equityRatio": 72.165,
+    "esg": 2.861,
+    "shares": 1364517,
+    "revenue": 79390977,
+    "profit": 17791809,
+    "cash": 18739744,
+    "ltDebt": 6900000,
+    "stDebt": 0,
+    "inventoryValue": 539695,
+    "dividends": 11000000,
+    "rdEfficiency": 1.053,
+    "turnover": 0.94,
+    "shareUSA": 18.996,
+    "price_USA_Combustion": 22500,
+    "feat_USA_Combustion": 5,
+    "sold_USA_Combustion": 442.492,
+    "dem_USA_Combustion": 442.492,
+    "price_USA_Hybrid": 29400,
+    "feat_USA_Hybrid": 5,
+    "sold_USA_Hybrid": 396.145,
+    "dem_USA_Hybrid": 396.145,
+    "shareChina": 19.421,
+    "price_China_Hybrid": 187000,
+    "feat_China_Hybrid": 6,
+    "sold_China_Hybrid": 536.801,
+    "dem_China_Hybrid": 536.801,
+    "shareEurope": 20.906,
+    "price_Europe_Combustion": 24500,
+    "feat_Europe_Combustion": 3,
+    "sold_Europe_Combustion": 448.309,
+    "dem_Europe_Combustion": 498.07,
+    "price_Europe_Hybrid": 32200,
+    "feat_Europe_Hybrid": 4,
+    "sold_Europe_Hybrid": 474.762,
+    "dem_Europe_Hybrid": 474.762,
+    "capUSA": 0,
+    "capChina": 0,
+    "invUnits": 37.186,
+    "inv_Combustion": 0,
+    "inv_Hybrid": 37.186,
+    "inv_Electric": 0,
+    "inv_Hydrogen": 0
+   },
+   "teams": {
+    "Green Day": {
+     "tsr": 29.93,
+     "sharePrice": 192.01
+    },
+    "RedBull": {
+     "tsr": 29.08,
+     "sharePrice": 178.13
+    },
+    "Blue": {
+     "tsr": 29.1,
+     "sharePrice": 185.53
+    },
+    "Orange": {
+     "tsr": 26.11,
+     "sharePrice": 156.67
+    },
+    "Great": {
+     "tsr": 25.3,
+     "sharePrice": 160.63
+    }
+   },
+   "rivalPrices": {
+    "USA": {
+     "RedBull": 31000,
+     "Blue": 31000,
+     "Orange": 29000,
+     "Great": 32500
+    },
+    "China": {
+     "Blue": 180000,
+     "Orange": 185000
+    },
+    "Europe": {
+     "RedBull": 33000,
+     "Blue": 32500,
+     "Orange": 29000,
+     "Great": 32000
+    }
+   },
+   "market": {
+    "USA": {
+     "Combustion": {
+      "Green Day": {
+       "price": 22500,
+       "features": 5,
+       "focus": "Brand",
+       "sales": 442.492,
+       "demand": 442.492
+      },
+      "RedBull": {
+       "price": 24000,
+       "features": 6,
+       "focus": "Balanced",
+       "sales": 426.671,
+       "demand": 426.671
+      },
+      "Blue": {
+       "price": 24000,
+       "features": 6,
+       "focus": "Brand",
+       "sales": 400.383,
+       "demand": 400.383
+      },
+      "Orange": {
+       "price": 22000,
+       "features": 7,
+       "focus": "Brand",
+       "sales": 583.331,
+       "demand": 583.331
+      },
+      "Great": {
+       "price": 22000,
+       "features": 7,
+       "focus": "Balanced",
+       "sales": 595.645,
+       "demand": 618.185
+      }
+     },
+     "Hybrid": {
+      "Green Day": {
+       "price": 29400,
+       "features": 5,
+       "focus": "Brand",
+       "sales": 396.145,
+       "demand": 396.145
+      },
+      "RedBull": {
+       "price": 31000,
+       "features": 4,
+       "focus": "Balanced",
+       "sales": 340.444,
+       "demand": 340.444
+      },
+      "Blue": {
+       "price": 31000,
+       "features": 5,
+       "focus": "Brand",
+       "sales": 335.406,
+       "demand": 335.406
+      },
+      "Orange": {
+       "price": 29000,
+       "features": 7,
+       "focus": "Brand",
+       "sales": 534.196,
+       "demand": 534.196
+      },
+      "Great": {
+       "price": 32500,
+       "features": 6,
+       "focus": "Balanced",
+       "sales": 360.118,
+       "demand": 424.465
+      }
+     }
+    },
+    "China": {
+     "Combustion": {
+      "RedBull": {
+       "price": 138500,
+       "features": 7,
+       "focus": "Features",
+       "sales": 462.728,
+       "demand": 462.728
+      },
+      "Orange": {
+       "price": 140000,
+       "features": 9,
+       "focus": "Features",
+       "sales": 618.649,
+       "demand": 618.649
+      },
+      "Great": {
+       "price": 131500,
+       "features": 7,
+       "focus": "Features",
+       "sales": 650.009,
+       "demand": 650.009
+      }
+     },
+     "Hybrid": {
+      "Green Day": {
+       "price": 187000,
+       "features": 6,
+       "focus": "Features",
+       "sales": 536.801,
+       "demand": 536.801
+      },
+      "Blue": {
+       "price": 180000,
+       "features": 6,
+       "focus": "Low price",
+       "sales": 495.742,
+       "demand": 495.742
+      },
+      "Orange": {
+       "price": 185000,
+       "features": 8,
+       "focus": "Features",
+       "sales": 709.964,
+       "demand": 709.964
+      }
+     },
+     "Electric": {
+      "Green Day": {
+       "price": 265000,
+       "features": 6,
+       "focus": "Features",
+       "sales": 315,
+       "demand": 475.947
+      },
+      "RedBull": {
+       "price": 245000,
+       "features": 2,
+       "focus": "Low price",
+       "sales": 247.846,
+       "demand": 281.877
+      },
+      "Blue": {
+       "price": 300000,
+       "features": 3,
+       "focus": "Features",
+       "sales": 156.057,
+       "demand": 156.057
+      },
+      "Great": {
+       "price": 340000,
+       "features": 4,
+       "focus": "Features",
+       "sales": 193.246,
+       "demand": 193.246
+      }
+     }
+    },
+    "Europe": {
+     "Combustion": {
+      "Green Day": {
+       "price": 24500,
+       "features": 3,
+       "focus": "Sustainability",
+       "sales": 448.309,
+       "demand": 498.07
+      },
+      "RedBull": {
+       "price": 29000,
+       "features": 3,
+       "focus": "Sustainability",
+       "sales": 372.552,
+       "demand": 372.552
+      },
+      "Orange": {
+       "price": 21000,
+       "features": 1,
+       "focus": "Sustainability",
+       "sales": 451.852,
+       "demand": 451.852
+      },
+      "Great": {
+       "price": 26000,
+       "features": 4,
+       "focus": "Sustainability",
+       "sales": 637.306,
+       "demand": 637.306
+      }
+     },
+     "Hybrid": {
+      "Green Day": {
+       "price": 32200,
+       "features": 4,
+       "focus": "Sustainability",
+       "sales": 474.762,
+       "demand": 474.762
+      },
+      "RedBull": {
+       "price": 33000,
+       "features": 1,
+       "focus": "Sustainability",
+       "sales": 295.582,
+       "demand": 295.582
+      },
+      "Blue": {
+       "price": 32500,
+       "features": 5,
+       "focus": "Sustainability",
+       "sales": 449.355,
+       "demand": 449.355
+      },
+      "Orange": {
+       "price": 29000,
+       "features": 2,
+       "focus": "Sustainability",
+       "sales": 469.06,
+       "demand": 469.06
+      },
+      "Great": {
+       "price": 32000,
+       "features": 3,
+       "focus": "Sustainability",
+       "sales": 597.297,
+       "demand": 597.297
+      }
+     },
+     "Electric": {
+      "Blue": {
+       "price": 45000,
+       "features": 3,
+       "focus": "Sustainability",
+       "sales": 219.213,
+       "demand": 219.213
+      }
+     }
+    }
+   }
   }
  ]
 }
