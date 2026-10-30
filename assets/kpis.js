@@ -20,6 +20,9 @@ function normalizeRound(r) {
   return r;
 }
 const TECHS = ["Combustion", "Hybrid", "Electric", "Hydrogen"];
+/* Technologies we track per area in the stored KPIs and the Sales view. */
+const SOLD_TECHS = ["Combustion", "Hybrid", "Electric"];
+const TECH_COLOR = { Combustion: "--series-1", Hybrid: "--series-2", Electric: "--series-3" };
 
 /* Raw fields stored per round. Money is in k USD, as Cesim reports it. */
 const RAW_FIELDS = [
@@ -39,7 +42,7 @@ const RAW_FIELDS = [
   { key: "inventoryValue", label: "Inventory, k USD", group: "Financial statements" },
   { key: "dividends", label: "Dividends paid, k USD", group: "Finance decision" },
   ...AREAS.map(a => ({ key: `share${a}`, label: `Market share ${a}, %`, group: "Market reports" })),
-  ...AREAS.flatMap(a => ["Combustion", "Hybrid"].flatMap(t => [
+  ...AREAS.flatMap(a => SOLD_TECHS.flatMap(t => [
     { key: `price_${a}_${t}`, label: `${a} ${t} price (local)`, group: "Market reports" },
     { key: `feat_${a}_${t}`, label: `${a} ${t} features`, group: "Market reports" },
     { key: `sold_${a}_${t}`, label: `${a} ${t} sold, k units`, group: "Market reports" },

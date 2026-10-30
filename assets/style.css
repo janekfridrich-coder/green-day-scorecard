@@ -133,6 +133,7 @@ svg { fill: currentColor; }
 .grid { display: grid; gap: 16px; }
 .charts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .charts .span-2 { grid-column: span 2; }
+.charts .span-all { grid-column: 1 / -1; }
 .charts > .panel { margin-top: 0; }
 .empty-state { text-align: center; padding: 56px 20px; }
 .empty-state p { color: var(--ink-2); max-width: 560px; margin: 10px auto 20px; }

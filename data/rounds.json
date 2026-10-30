@@ -431,7 +431,9 @@
     "sold_Europe_Hybrid": 403,
     "dem_Europe_Hybrid": 403,
     "rdEfficiency": 0.939,
-    "turnover": 3.2
+    "turnover": 3.2,
+    "inv_Electric": 0,
+    "inv_Hydrogen": 0
    },
    "teams": {
     "Green Day": {
@@ -737,7 +739,9 @@
     "sold_Europe_Hybrid": 464,
     "dem_Europe_Hybrid": 464,
     "rdEfficiency": 0.959,
-    "turnover": 2.8
+    "turnover": 2.8,
+    "inv_Electric": 0,
+    "inv_Hydrogen": 0
    },
    "teams": {
     "Green Day": {
@@ -2060,7 +2064,11 @@
     "inv_Combustion": 0,
     "inv_Hybrid": 37.186,
     "inv_Electric": 0,
-    "inv_Hydrogen": 0
+    "inv_Hydrogen": 0,
+    "price_China_Electric": 265000,
+    "feat_China_Electric": 6,
+    "sold_China_Electric": 315,
+    "dem_China_Electric": 475.947
    },
    "teams": {
     "Green Day": {

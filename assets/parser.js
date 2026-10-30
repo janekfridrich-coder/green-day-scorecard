@@ -118,7 +118,7 @@ function extract(facts, team) {
   for (const a of AREAS) {
     const share = facts.find(f => f.area === a && /^total$/i.test(f.label) && /market share/i.test(f.title));
     if (share) take(`share${a}`, share);
-    for (const t of ["Combustion", "Hybrid"]) {
+    for (const t of SOLD_TECHS) {
       const inTech = f => f.area === a && f.tech === t;
       const price = facts.find(f => inTech(f) && /^selling price/i.test(f.label));
       if (price) {
