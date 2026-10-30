@@ -4,7 +4,7 @@
 const AREAS = ["USA", "China", "Europe"];
 /* Teams rename themselves between rounds ("U5T3 - Blue", "T3 Blue Baby Sharks"): one short name per team,
    so rounds line up and the import finds us whatever prefix Cesim prints. */
-const TEAM_ALIASES = [[/green\s*day/i, "Green Day"], [/red\s*bull/i, "RedBull"], [/blue/i, "Blue"], [/orange/i, "Orange"], [/gre(y|at)\b/i, "Great"]];
+const TEAM_ALIASES = [[/green\s*day/i, "Green Day"], [/red\s*bull/i, "RedBull"], [/blue/i, "Blue"], [/orange/i, "Orange"], [/\bgre(y|at)/i, "Great"]];
 function teamName(raw) {
   const s = String(raw || "").trim().replace(/^(U\d+\s*)?T\d+\s*[-–]?\s*/i, "").trim();
   const hit = TEAM_ALIASES.find(([re]) => re.test(s));
